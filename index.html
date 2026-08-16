@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Tonight — Nothing's on. Everything's on.</title>
 <meta name="description" content="Tonight tracks your watchlist and tells you what's actually new tonight — across every service you're already subscribed to." />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23F5A85A'/%3E%3Cstop offset='1' stop-color='%23E8664B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='%230B0E1C'/%3E%3Ccircle cx='50' cy='50' r='26' fill='url(%23g)'/%3E%3C/svg%3E" />
+<link rel="icon" href="assets/icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
 
 <header>
   <nav class="wrap">
-    <a class="brand" href="index.html">Tonight<span class="dot dot-live"></span></a>
+    <a class="brand" href="index.html">Tonight<img class="brand-dot" src="assets/icon.png" alt=""></a>
     <div class="nav-links">
       <a href="index.html#features">Features</a>
       <a href="index.html#pricing">Pricing</a>
@@ -27,7 +27,7 @@
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="wrap">
-    <div class="eyebrow"><span class="dot dot-live"></span>9:03 PM</div>
+    <p class="scene-time">9:03 PM.</p>
     <h1>Nothing's on.<br><span class="accent">Everything's on.</span></h1>
     <p class="sub">Six apps open, forty minutes gone, and you still don't know what you're watching. Tonight tracks your watchlist and tells you exactly what's new — tonight, on what you already have.</p>
     <div class="hero-actions">
@@ -35,38 +35,31 @@
       <span class="hero-note">Free to use. No account required to try it.</span>
     </div>
 
-    <div class="hero-visual" aria-hidden="true">
-      <div class="screen">
-        <div class="hv-row">
-          <span class="hv-title">Tonight</span>
-          <span class="hv-badge"></span>
-        </div>
-        <div class="hv-pill">4 new tonight</div>
-        <div class="hv-card">
-          <div class="hv-thumb"></div>
-          <div class="hv-text">
-            <div class="hv-line w1"></div>
-            <div class="hv-line w2"></div>
-          </div>
-        </div>
-        <div class="hv-card">
-          <div class="hv-thumb"></div>
-          <div class="hv-text">
-            <div class="hv-line w1"></div>
-            <div class="hv-line w2"></div>
-          </div>
-        </div>
-        <div class="hv-card">
-          <div class="hv-thumb"></div>
-          <div class="hv-text">
-            <div class="hv-line w1"></div>
-            <div class="hv-line w2"></div>
-          </div>
-        </div>
-      </div>
+    <div class="hero-visual">
+      <img src="assets/shot-tonight.png" alt="The Tonight app home screen, showing tonight's new episode and what's coming up next on the watchlist." loading="eager">
     </div>
   </div>
 </section>
+
+<section class="wrap showcase" id="showcase">
+  <div class="section-head">
+    <div class="kicker">See it in action</div>
+    <h2>Real screens. No filler.</h2>
+  </div>
+  <div class="showcase-grid">
+    <figure class="showcase-item">
+      <div class="showcase-frame"><img src="assets/shot-watchlist.png" alt="Watchlist screen showing 131 saved shows, 14 in progress, and 109 completed, with a Continue Watching card for American Horror Story."></div>
+      <figcaption>Every show you're tracking, with progress that updates itself.</figcaption>
+    </figure>
+    <figure class="showcase-item">
+      <div class="showcase-frame"><img src="assets/shot-detail.png" alt="Show detail page for The Walking Dead: Dead City, listing every streaming service it's available on."></div>
+      <figcaption>Tap a show, see exactly where it's streaming.</figcaption>
+    </figure>
+    <figure class="showcase-item">
+      <div class="showcase-frame"><img src="assets/shot-recs.png" alt="Discover screen's Picked For You section, showing personalized recommendations from watchlist and viewing history."></div>
+      <figcaption>Premium picks, built from what you actually watch.</figcaption>
+    </figure>
+  </div>
 
 <section class="wrap">
   <div class="split">
@@ -201,7 +194,7 @@
 <footer>
   <div class="wrap foot-row">
     <div class="foot-brand">
-      <span class="dot"></span>
+      <img class="foot-dot" src="assets/icon.png" alt="">
       <span class="foot-word">Tonight</span>
     </div>
     <div class="foot-links">

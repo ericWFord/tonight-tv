@@ -53,6 +53,8 @@ nav{
   text-decoration:none;
 }
 .brand .dot{ width:6px; height:6px; margin:0 1px 14px 1px; }
+.brand-dot, .foot-dot{ width:16px; height:16px; border-radius:50%; }
+.brand-dot{ width:14px; height:14px; margin-left:1px; }
 .nav-links{ display:flex; align-items:center; gap:28px; }
 .nav-links a{
   font-size:14px; font-weight:500; color:var(--slate);
@@ -85,17 +87,16 @@ nav{
   background:radial-gradient(circle, rgba(232,102,75,0.28) 0%, rgba(245,168,90,0.10) 38%, transparent 68%);
   pointer-events:none;
 }
-.eyebrow{
+.scene-time{
   position:relative;
-  display:inline-flex; align-items:center; gap:9px;
-  font-size:13px; font-weight:600;
+  font-family:'Fraunces', serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:15px;
   color:var(--slate);
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  margin-bottom:28px;
-  font-variant-numeric: tabular-nums;
+  letter-spacing:0.02em;
+  margin-bottom:22px;
 }
-.eyebrow .dot{ width:7px; height:7px; }
 h1{
   position:relative;
   font-family:'Fraunces', serif;
@@ -137,60 +138,50 @@ h1 .accent{
 .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 16px 36px -8px rgba(232,102,75,0.7); }
 .hero-note{ font-size:13px; color:var(--slate); }
 
-/* Phone visual */
+/* Hero visual — real screenshot in a phone frame */
 .hero-visual{
   position:relative;
   margin:80px auto 0;
-  width:min(280px, 70vw);
-  aspect-ratio:9/17.5;
-  border-radius:38px;
+  width:min(260px, 66vw);
+  border-radius:34px;
   background:var(--panel);
   border:1px solid var(--panel-line);
   box-shadow:0 40px 90px -30px rgba(0,0,0,0.7);
-  padding:14px;
-  text-align:left;
+  padding:10px;
+  overflow:hidden;
 }
-.hero-visual .screen{
-  height:100%;
+.hero-visual img{
+  display:block;
+  width:100%;
+  height:auto;
   border-radius:26px;
-  background:linear-gradient(180deg, #10142A, #0B0E1C);
-  padding:22px 16px;
-  display:flex; flex-direction:column; gap:12px;
 }
-.hv-row{ display:flex; align-items:center; justify-content:space-between; }
-.hv-title{ font-family:'Fraunces', serif; font-size:15px; }
-.hv-badge{
-  width:22px; height:22px; border-radius:50%;
-  background:linear-gradient(135deg, var(--amber), var(--coral));
+
+/* Screenshot showcase */
+.showcase-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:28px;
 }
-.hv-pill{
-  align-self:flex-start;
-  font-size:10px; font-weight:600;
-  color:var(--amber);
-  background:rgba(245,168,90,0.12);
-  padding:4px 9px;
-  border-radius:100px;
-  letter-spacing:0.02em;
-}
-.hv-card{
+.showcase-item{ text-align:left; }
+.showcase-frame{
+  border-radius:22px;
   background:var(--panel);
   border:1px solid var(--panel-line);
-  border-radius:14px;
-  padding:12px;
-  display:flex; align-items:center; gap:10px;
+  padding:8px;
+  box-shadow:0 24px 60px -24px rgba(0,0,0,0.6);
+  overflow:hidden;
+  margin-bottom:18px;
 }
-.hv-thumb{
-  width:38px; height:38px; border-radius:9px; flex-shrink:0;
-  background:linear-gradient(135deg, #2B3358, #171B33);
+.showcase-frame img{
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius:16px;
 }
-.hv-text{ display:flex; flex-direction:column; gap:5px; flex:1; }
-.hv-line{ height:7px; border-radius:4px; background:var(--panel-line); }
-.hv-line.w1{ width:78px; }
-.hv-line.w2{ width:52px; background:#171B33; }
-.hv-check{
-  width:20px; height:20px; border-radius:50%;
-  background:var(--panel-line);
-  flex-shrink:0;
+.showcase-item figcaption{
+  font-size:14.5px;
+  color:var(--slate);
+  line-height:1.5;
+  max-width:280px;
 }
 
 /* Sections shared */
@@ -397,7 +388,7 @@ footer{
 .support-card a:hover{ text-decoration:underline; }
 
 @media (max-width:760px){
-  .split, .feature-grid, .tiers{ grid-template-columns:1fr; }
+  .split, .feature-grid, .tiers, .showcase-grid{ grid-template-columns:1fr; }
   .split{ gap:44px; }
   .hero{ padding:88px 20px 100px; }
   section{ padding:72px 0; }
