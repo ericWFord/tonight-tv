@@ -15,10 +15,12 @@
 
 <header>
   <nav class="wrap">
-    <a class="brand" href="index.html">Tonight<span class="dot"></span></a>
+    <a class="brand" href="index.html" aria-label="Tonight home">
+      <img class="brand-wordmark" src="assets/wordmark.svg" alt="Tonight" width="120" height="37">
+    </a>
     <div class="nav-links">
-      <a href="index.html#features">Features</a>
-      <a href="index.html#pricing">Pricing</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
       <a href="support.html">Support</a>
     </div>
   </nav>
@@ -31,13 +33,16 @@
     <h1>Nothing's on.<br><span class="accent">Everything's on.</span></h1>
     <p class="sub">Six apps open, forty minutes gone, and you still don't know what you're watching. Tonight tracks your watchlist and tells you exactly what's new — tonight, on what you already have.</p>
     <div class="hero-actions">
-      <a class="btn-primary" href="index.html#pricing">See how it works</a>
+      <a class="btn-primary" href="#pricing">See how it works</a>
       <span class="hero-note">Free to use. No account required to try it.</span>
     </div>
+  </div>
 
+  <div class="hero-visual-wrap">
     <div class="hero-visual">
-      <img src="assets/shot-tonight.png" alt="The Tonight app home screen, showing tonight's new episode and what's coming up next on the watchlist." loading="eager">
+      <img src="assets/shot-tonight.png" alt="The Tonight app home screen showing tonight's new episode and what's coming up next on the watchlist." loading="eager" width="272" height="560">
     </div>
+    <div class="hero-fade"></div>
   </div>
 </section>
 
@@ -48,15 +53,21 @@
   </div>
   <div class="showcase-grid">
     <figure class="showcase-item">
-      <div class="showcase-frame"><img src="assets/shot-watchlist.png" alt="Watchlist screen showing 131 saved shows, 14 in progress, and 109 completed, with a Continue Watching card for American Horror Story."></div>
+      <div class="showcase-frame">
+        <img src="assets/shot-watchlist.png" alt="Watchlist screen with 131 saved shows, continue watching, and actively watching rows." loading="lazy">
+      </div>
       <figcaption>Every show you're tracking, with progress that updates itself.</figcaption>
     </figure>
     <figure class="showcase-item">
-      <div class="showcase-frame"><img src="assets/shot-detail.png" alt="Show detail page listing streaming availability and episode tracking."></div>
+      <div class="showcase-frame">
+        <img src="assets/shot-detail.png" alt="Show detail page with streaming info, genres, and episode tracking." loading="lazy">
+      </div>
       <figcaption>Tap a show, see exactly where it's streaming.</figcaption>
     </figure>
     <figure class="showcase-item">
-      <div class="showcase-frame"><img src="assets/shot-recs.png" alt="Discover screen's Picked For You section, showing personalized recommendations from watchlist and viewing history."></div>
+      <div class="showcase-frame">
+        <img src="assets/shot-recs.png" alt="Discover screen with personalized picks and watched / not interested actions." loading="lazy">
+      </div>
       <figcaption>Premium picks, built from what you actually watch.</figcaption>
     </figure>
   </div>
@@ -67,7 +78,7 @@
     <div>
       <div class="kicker">The mechanism</div>
       <h2>Tonight starts with your list, not a guess.</h2>
-      <p class="lead">Add a show to your watchlist and Tonight tracks it from there — what's airing tonight, what's coming up this week, what you've fallen behind on. Every episode, every service, one screen. No feed to scroll, no algorithm deciding what you should want.</p>
+      <p class="lead">Add a show to your watchlist and Tonight tracks it from there — what's airing tonight, what's coming up this week, what you've fallen behind on. Every episode, every service, one screen.</p>
     </div>
     <div class="mech-card">
       <div class="mech-row">
@@ -180,7 +191,7 @@
   </div>
 </section>
 
-<section class="wrap">
+<section class="wrap closing-wrap">
   <div class="closing">
     <div class="closing-glow"></div>
     <h2>Tonight is almost here.</h2>
@@ -195,8 +206,9 @@
 <footer>
   <div class="wrap foot-row">
     <div class="foot-brand">
-      <span class="dot"></span>
-      <span class="foot-word">Tonight</span>
+      <a href="index.html" aria-label="Tonight home">
+        <img class="brand-wordmark" src="assets/wordmark.svg" alt="Tonight" width="90" height="28">
+      </a>
     </div>
     <div class="foot-links">
       <a href="support.html">Support</a>
