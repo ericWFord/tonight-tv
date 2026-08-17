@@ -1,486 +1,460 @@
+/* ===========================================================================
+   Tonight — marketing site
+   Palette, type and the one-gradient-per-viewport rule are lifted from the
+   app source (shared/components.jsx), not invented here.
+
+   Structure:
+     1. Tokens
+     2. Base + a11y
+     3. Header
+     4. Phone component (frame + authored status bar)
+     5. Hero (9:03)
+     6. Beats (9:04 / 9:06 / 9:07 / off-clock)
+     7. Pricing
+     8. Close (9:11)
+     9. Sticky mobile CTA
+    10. Footer + legal pages
+    11. Breakpoints  ← the old file's fatal unclosed-brace bug lived here
+   ======================================================================== */
+
+/* ── 1. Tokens ─────────────────────────────────────────────────────────── */
 :root{
-  /* Exact tokens from the app (components.jsx) */
-  --ink: #0B0E1C;
-  --panel: #12172B;
-  --panel-alt: #1A2036;
-  --panel-line: #242B45;
-  --cream: #F4EFE4;
-  --slate: #8B93AC;
-  --accent: #F2824F;
-  --accent-dim: #7A4535;
-  --accent-soft: #FFC9A3;
-  --dusk-from: #FFA25E;
-  --dusk-to: #E85C4A;
+  --ink:#0B0E1C;
+  --panel:#12172B;
+  --panel-alt:#1A2036;
+  --panel-line:#242B45;
+  --cream:#F4EFE4;
+  --slate:#8B93AC;
+  --accent:#F2824F;
+  --accent-dim:#7A4535;
+  --accent-soft:#FFC9A3;
+  --dusk-from:#FFA25E;
+  --dusk-to:#E85C4A;
+
+  --wrap:1120px;
+  --gutter:24px;
+  --rhythm:96px;          /* section spacing, mobile */
+  --r-lg:24px;
+  --r-md:18px;
+  --r-sm:12px;
+
+  /* Phone frame. --w is set per instance in the markup. */
+  --phone-radius:44px;
+  --phone-pad:9px;
+  --screen-ratio:540 / 1157;   /* native ratio of the shipped captures */
 }
-*{box-sizing:border-box; margin:0; padding:0;}
-html{scroll-behavior:smooth;}
+
+/* ── 2. Base + a11y ───────────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
 body{
   background:var(--ink);
   color:var(--cream);
-  font-family:'Inter', system-ui, -apple-system, sans-serif;
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
+  line-height:1.5;
 }
-a{color:inherit; text-decoration:none;}
-.wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+a{color:inherit;text-decoration:none;}
+img,svg{display:block;max-width:100%;}
+ul{list-style:none;}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter);}
+.svg-defs{position:absolute;width:0;height:0;overflow:hidden;}
 
-/* Signature dusk gradient — logo i-dot only */
-.dot{
-  background:linear-gradient(135deg, var(--dusk-from), var(--dusk-to));
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:100;
+  background:var(--accent);color:#1A0E08;padding:12px 20px;
+  border-radius:0 0 var(--r-sm) 0;font-weight:600;
+}
+.skip:focus{left:0;}
+:focus-visible{
+  outline:2px solid var(--accent-soft);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+/* The signature dusk gradient. Reserved for the wordmark i-dot, the hero
+   headline dot, and small accent dots. One per viewport, no exceptions. */
+.dot,.dot-mark{
+  background:linear-gradient(135deg,var(--dusk-from),var(--dusk-to));
   border-radius:50%;
   display:inline-block;
 }
 
-/* ——— Nav ——— */
-header{
-  position:sticky; top:0; z-index:30;
-  background:rgba(11,14,28,0.88);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(36,43,69,0.7);
+.stamp{
+  font-size:11px;font-weight:700;color:var(--accent);
+  text-transform:uppercase;letter-spacing:.18em;
+  margin-bottom:14px;
 }
-nav{
-  display:flex; align-items:center; justify-content:space-between;
-  height:64px;
-}
-.brand{
-  display:flex; align-items:center;
-  line-height:0;
-}
-.brand-wordmark{
-  height:28px;
-  width:auto;
-  display:block;
-}
-.nav-links{ display:flex; align-items:center; gap:28px; }
-.nav-links a{
-  font-size:14px; font-weight:500; color:var(--slate);
-  transition:color .15s ease;
-}
-.nav-links a:hover{ color:var(--cream); }
-
-/* ——— Hero ——— */
-.hero{
-  position:relative;
-  padding:96px 0 0;
-  overflow:hidden;
-}
-.hero-glow{
-  position:absolute;
-  top:-200px; left:50%;
-  transform:translateX(-50%);
-  width:820px; height:820px;
-  background:radial-gradient(circle, rgba(242,130,79,0.18) 0%, rgba(232,92,74,0.06) 42%, transparent 68%);
-  pointer-events:none;
-}
-.scene-time{
-  position:relative;
-  font-family:'Fraunces', serif;
-  font-style:italic;
-  font-weight:400;
-  font-size:clamp(40px, 6.8vw, 72px);
-  color:var(--slate);
-  letter-spacing:0.02em;
-  margin-bottom:20px;
-}
-h1{
-  position:relative;
-  font-family:'Fraunces', serif;
-  font-weight:500;
-  font-size:clamp(40px, 6.8vw, 72px);
-  line-height:1.06;
-  letter-spacing:-0.02em;
-  max-width:780px;
-  color:var(--cream);
-}
-h1 .accent{
-  font-style:italic;
-  color:var(--accent);
-}
-.sub{
-  position:relative;
-  font-size:clamp(16px, 1.9vw, 18.5px);
-  color:var(--slate);
-  max-width:520px;
-  line-height:1.6;
-}
-.hero-actions{
-  position:relative;
-  display:flex; flex-direction:column; align-items:flex-start; gap:14px;
-  margin-bottom:64px;
-}
-.btn-primary{
-  display:inline-block;
-  padding:14px 30px;
-  border-radius:100px;
-  background:var(--accent);
-  color:#1A0E08;
-  font-weight:600;
-  font-size:15.5px;
-  box-shadow:0 10px 28px -8px rgba(242,130,79,0.42);
-  transition:transform .18s ease, box-shadow .18s ease, background .15s ease;
-}
-.btn-primary:hover{
-  transform:translateY(-1px);
-  background:#F5925F;
-  box-shadow:0 14px 34px -8px rgba(242,130,79,0.55);
-}
-.hero-note{ font-size:13px; color:var(--slate); }
-
-/* Phone visual — bleeds into next section for continuity */
-.hero-visual-wrap{
-  position:relative;
-  display:flex;
-  justify-content:center;
-  padding-bottom:0;
-}
-.hero-visual{
-  position:relative;
-  width:min(272px, 68vw);
-  border-radius:36px;
-  background:var(--panel);
-  border:1px solid var(--panel-line);
-  box-shadow:
-    0 40px 80px -28px rgba(0,0,0,0.75),
-    0 0 0 1px rgba(255,255,255,0.03);
-  padding:9px;
-  z-index:2;
-}
-.hero-visual img{
-  display:block;
-  width:100%;
-  height:auto;
-  border-radius:28px;
-}
-
-/* Soft fade under the phone so the next section starts cleanly */
-.hero-fade{
-  position:absolute;
-  left:0; right:0; bottom:0;
-  height:120px;
-  background:linear-gradient(to bottom, transparent, var(--ink));
-  pointer-events:none;
-  z-index:1;
-}
-
-/* ——— Shared section rhythm ——— */
-section{ padding:88px 0; }
-.section-head{ max-width:580px; margin:0 0 44px; }
+.stamp--offclock{color:var(--slate);}
 .kicker{
-  font-size:12px; font-weight:600; color:var(--accent);
-  text-transform:uppercase; letter-spacing:0.1em;
-  margin-bottom:12px;
+  font-size:12px;font-weight:600;color:var(--accent);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;
 }
 h2{
-  font-family:'Fraunces', serif;
-  font-weight:500;
-  font-size:clamp(26px, 3.8vw, 36px);
-  letter-spacing:-0.015em;
-  line-height:1.18;
-  color:var(--cream);
+  font-family:'Fraunces',serif;font-weight:700;
+  font-size:clamp(26px,4.4vw,40px);
+  line-height:1.12;letter-spacing:-.03em;color:var(--cream);
 }
 .lead{
   color:var(--slate);
-  font-size:16.5px;
-  line-height:1.65;
-  margin-top:14px;
-  max-width:520px;
+  font-size:15px;line-height:1.6;
+  margin-top:14px;max-width:34ch;
 }
+.badge-row{margin-top:20px;}
+.badge{
+  display:inline-block;font-size:10px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 10px;border-radius:100px;
+}
+.badge.free{background:rgba(139,147,172,.14);color:var(--slate);}
+.badge.premium{background:rgba(242,130,79,.15);color:var(--accent);}
 
-/* Showcase sits tighter under the phone */
-.showcase{
-  padding-top:56px;
-  padding-bottom:72px;
+.btn-primary{
+  display:inline-block;padding:14px 30px;border-radius:100px;
+  background:var(--accent);color:#1A0E08;
+  font-weight:600;font-size:15.5px;border:0;cursor:pointer;
+  font-family:inherit;
+  box-shadow:0 10px 28px -8px rgba(242,130,79,.42);
+  transition:transform .18s ease,box-shadow .18s ease,background .15s ease;
 }
-.showcase-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:22px;
+.btn-primary:hover{
+  transform:translateY(-1px);background:#F5925F;
+  box-shadow:0 14px 34px -8px rgba(242,130,79,.55);
 }
-.showcase-item{ text-align:left; }
-.showcase-frame{
-  border-radius:18px;
-  background:var(--panel);
+.btn-sm{padding:11px 20px;font-size:14px;}
+
+/* ── 3. Header ────────────────────────────────────────────────────────── */
+header{
+  position:sticky;top:0;z-index:30;
+  background:rgba(11,14,28,.88);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(36,43,69,.7);
+}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px;}
+.brand{display:flex;align-items:center;line-height:0;}
+.brand-wordmark{height:26px;width:auto;}
+.nav-links{display:flex;align-items:center;gap:24px;}
+.nav-links a{font-size:14px;font-weight:500;color:var(--slate);transition:color .15s ease;}
+.nav-links a:hover{color:var(--cream);}
+.nav-cta{
+  color:var(--cream)!important;border:1px solid var(--panel-line);
+  padding:8px 16px;border-radius:100px;
+}
+.nav-cta:hover{border-color:var(--accent-dim);}
+
+/* ── 4. Phone component ──────────────────────────────────────────────────
+   One frame for the whole site. Matte near-black bezel, hairline in the
+   app's own --panel-line, single soft shadow. No hands, no desk, no gloss.
+   ---------------------------------------------------------------------- */
+.phone{
+  position:relative;
+  width:var(--w,280px);
+  max-width:100%;
+  padding:var(--phone-pad);
+  border-radius:var(--phone-radius);
+  background:#0A0C14;
   border:1px solid var(--panel-line);
-  padding:6px;
-  box-shadow:0 18px 48px -20px rgba(0,0,0,0.55);
+  box-shadow:0 40px 80px -20px rgba(0,0,0,.7);
+}
+.phone-screen{
+  position:relative;
+  border-radius:calc(var(--phone-radius) - var(--phone-pad));
   overflow:hidden;
-  margin-bottom:14px;
-  transition:transform .2s ease, box-shadow .2s ease;
+  background:var(--ink);
+  aspect-ratio:var(--screen-ratio);
 }
-.showcase-frame:hover{
-  transform:translateY(-3px);
-  box-shadow:0 24px 56px -18px rgba(0,0,0,0.65);
+.phone-screen img{
+  width:100%;height:auto;
+  /* --crop trims a captured status bar off the top so the authored bar
+     can replace it. Set --crop:0 once shots are re-captured clean. */
+  margin-top:calc(-1 * var(--crop,0px));
 }
-.showcase-frame img{
-  display:block;
-  width:100%;
-  height:auto;
-  border-radius:13px;
+/* --focus:bottom reframes the same capture lower, standing in for a
+   scrolled state without a second screenshot. */
+.phone-screen:has(img[style]),
+.phone[style*="--focus:bottom"] .phone-screen img{
+  margin-top:auto;
 }
-.showcase-item figcaption{
-  font-size:13.5px;
-  color:var(--slate);
-  line-height:1.5;
-  max-width:260px;
+.phone[style*="--focus:bottom"] .phone-screen{
+  display:flex;align-items:flex-end;
+}
+.phone[style*="--focus:bottom"] .phone-screen img{
+  margin-top:0;margin-bottom:-34%;
 }
 
-/* Features — continuous panel */
-.features{
+/* Authored status bar — vector, not captured. */
+.phone-status{
+  position:absolute;
+  top:calc(var(--phone-pad) + 10px);
+  left:calc(var(--phone-pad) + 26px);
+  right:calc(var(--phone-pad) + 22px);
+  z-index:3;
+  display:flex;align-items:center;justify-content:space-between;
+  color:var(--cream);
+  pointer-events:none;
+}
+.ps-time{
+  font-size:12px;font-weight:600;letter-spacing:.01em;
+  font-variant-numeric:tabular-nums;
+}
+.ps-cluster{width:50px;height:11px;color:var(--cream);}
+/* Off-clock section: icon cluster only. Never a fake time, never a dash. */
+.phone-status--notime .ps-time{display:none;}
+
+.phone--tilt{transform:rotate(-2.5deg);}
+
+/* ── 5. Hero (9:03) ──────────────────────────────────────────────────── */
+.hero{position:relative;padding:72px 0 0;overflow:hidden;}
+.hero-glow{
+  position:absolute;top:-240px;left:50%;transform:translateX(-50%);
+  width:820px;height:820px;pointer-events:none;
+  /* Ambient night wash, echoing the app's own splash radial. Dialled well
+     below the old 0.18 so the headline dot stays the gradient event. */
+  background:radial-gradient(circle,rgba(242,130,79,.10) 0%,rgba(232,92,74,.04) 42%,transparent 68%);
+}
+.hero-grid{position:relative;display:grid;gap:44px;}
+.scene-time{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:400;
+  font-size:clamp(22px,5.2vw,34px);
+  color:var(--slate);letter-spacing:.01em;
+  margin-bottom:10px;
+}
+h1{
+  font-family:'Fraunces',serif;font-weight:700;
+  font-size:clamp(40px,10vw,52px);
+  line-height:1.04;letter-spacing:-.04em;
+  color:var(--cream);
+}
+/* Hard-locked two-line stack. If "Everything's on." ever reflows up onto
+   line one, the paradox dies — hence block display, not a <br>. */
+h1 .line{display:block;}
+.dot-mark{
+  width:.14em;height:.14em;
+  margin-left:.14em;vertical-align:.28em;
+}
+.sub{
+  font-size:15px;line-height:1.6;color:var(--slate);
+  max-width:34ch;margin-top:22px;
+}
+.hero-actions{
+  display:flex;flex-direction:column;align-items:flex-start;gap:14px;
+  margin-top:32px;
+}
+.hero-note{font-size:13px;color:var(--slate);}
+.hero-visual{display:flex;justify-content:center;}
+/* The fold crop is the scroll affordance: bottom of the phone is clipped
+   by the section, not faded out with a gradient veil. */
+.phone--hero{margin-bottom:-90px;}
+
+/* ── 6. Beats ─────────────────────────────────────────────────────────── */
+.beat{padding:var(--rhythm) 0;}
+.beat--panel{
   background:var(--panel);
   border-top:1px solid var(--panel-line);
   border-bottom:1px solid var(--panel-line);
-  padding:80px 0;
 }
-.feature-grid{
-  display:grid;
-  grid-template-columns:repeat(2, 1fr);
-  gap:1px;
-  background:var(--panel-line);
+/* Mobile block order, every beat, no exceptions:
+   stamp → headline → body → device. Copy first, always. */
+.beat-grid{display:grid;gap:40px;}
+.beat-visual{display:flex;justify-content:center;}
+
+/* Cropped bleed: device runs off the container edge. */
+.beat-visual--bleed{justify-content:flex-end;margin-right:calc(-1 * var(--gutter) - 40px);}
+
+/* 9:06 — device plus the site's only unframed UI crop. */
+.phone-with-crop{position:relative;padding-bottom:34px;}
+.detail-crop{
+  position:absolute;left:-14px;bottom:0;
+  width:40%;
+  border-radius:var(--r-sm);
   border:1px solid var(--panel-line);
-  border-radius:18px;
+  background:var(--ink);
   overflow:hidden;
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.6);
 }
-.feature{
-  background:var(--panel);
-  padding:32px 28px;
-}
-.feature .mark{
-  width:32px; height:32px; border-radius:9px;
-  background:rgba(242,130,79,0.13);
-  display:flex; align-items:center; justify-content:center;
-  margin-bottom:18px;
-}
-.feature .mark .dot{
-  width:9px; height:9px;
-  background:var(--accent);
-}
-.feature-top{
-  display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
-}
-.feature h4{
-  font-family:'Fraunces', serif; font-weight:500;
-  font-size:18px; margin-bottom:8px; color:var(--cream);
-}
-.feature p{ color:var(--slate); font-size:14px; line-height:1.65; }
-.badge{
-  font-size:10px; font-weight:700;
-  letter-spacing:0.05em;
-  padding:3px 9px;
-  border-radius:100px;
-  flex-shrink:0;
-  white-space:nowrap;
-  margin-top:2px;
-}
-.badge.free{ background:rgba(139,147,172,0.14); color:var(--slate); }
-.badge.premium{
-  background:rgba(242,130,79,0.15);
-  color:var(--accent);
+.detail-crop img{
+  width:280%;                 /* scale up, then window onto the season rows */
+  margin-left:-52%;
+  margin-top:-190%;
 }
 
-/* Availability */
-.avail{ text-align:center; padding:80px 0; }
-.avail .section-head{ margin-left:auto; margin-right:auto; text-align:center; }
-.services{
-  display:flex; flex-wrap:wrap; justify-content:center; gap:9px;
-  max-width:600px; margin:0 auto;
-}
+/* 9:07 — single annotation on the whole site. Hairline only. */
+.phone-annotated{position:relative;}
+.annotation{display:none;}
+
+/* Off-clock beat sits lower in its container than the others. */
+.beat--offclock .beat-visual{padding-top:24px;}
+
+.services{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px;}
 .service-chip{
-  font-size:13px; font-weight:500;
-  color:var(--slate);
+  font-size:13px;font-weight:500;color:var(--slate);
   border:1px solid var(--panel-line);
-  padding:8px 16px;
-  border-radius:100px;
-  transition:border-color .15s ease, color .15s ease;
+  padding:8px 16px;border-radius:100px;
 }
-.service-chip:hover{
-  border-color:var(--accent-dim);
-  color:var(--cream);
-}
+.service-chip.is-muted{opacity:.65;}
 
-/* Pricing */
-#pricing{ padding:80px 0 88px; }
-.tiers{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+/* ── 7. Pricing (off the clock, deliberately) ─────────────────────────── */
+.pricing{padding:var(--rhythm) 0;}
+.section-head{max-width:600px;margin-bottom:40px;}
+.tiers{display:grid;gap:20px;}
 .tier{
-  border:1px solid var(--panel-line);
-  border-radius:18px;
-  padding:32px;
-  background:var(--panel);
+  border:1px solid var(--panel-line);border-radius:var(--r-md);
+  padding:32px;background:var(--panel);
 }
-.tier.premium{
-  border-color:rgba(242,130,79,0.4);
-}
-.tier-name{ font-family:'Fraunces', serif; font-size:19px; margin-bottom:6px; color:var(--cream); }
-.tier-desc{ color:var(--slate); font-size:13.5px; margin-bottom:22px; line-height:1.5; }
-.tier ul{ list-style:none; display:flex; flex-direction:column; gap:11px; }
-.tier li{ font-size:14px; color:var(--cream); display:flex; gap:10px; align-items:flex-start; }
+.tier.premium{border-color:rgba(242,130,79,.4);}
+.tier-name{font-family:'Fraunces',serif;font-weight:700;font-size:19px;margin-bottom:6px;}
+.tier-desc{color:var(--slate);font-size:13.5px;margin-bottom:22px;line-height:1.5;}
+.tier ul{display:flex;flex-direction:column;gap:11px;}
+.tier li{font-size:14px;color:var(--cream);display:flex;gap:10px;align-items:flex-start;}
 .tier li::before{
-  content:"";
-  width:5px; height:5px; border-radius:50%;
-  background:var(--slate);
-  margin-top:7px; flex-shrink:0;
+  content:"";width:5px;height:5px;border-radius:50%;
+  background:var(--slate);margin-top:7px;flex-shrink:0;
 }
-.tier.premium li::before{ background:var(--accent); }
+.tier.premium li::before{background:var(--accent);}
 
-/* Closing */
-.closing-wrap{ padding:0 0 96px; }
-.closing{
-  background:var(--panel);
-  border:1px solid var(--panel-line);
-  border-radius:24px;
-  padding:64px 36px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
+/* ── 8. Close (9:11) — no device ──────────────────────────────────────── */
+.close{padding:var(--rhythm) 0 calc(var(--rhythm) + 24px);border-top:1px solid var(--panel-line);}
+.close-inner{max-width:620px;}
+.close .lead{max-width:46ch;}
+.capture{display:flex;flex-direction:column;gap:12px;margin-top:32px;max-width:440px;}
+.capture input{
+  width:100%;padding:15px 18px;
+  background:var(--panel);color:var(--cream);
+  border:1px solid var(--panel-line);border-radius:100px;
+  font-family:inherit;font-size:15px;
 }
-.closing-glow{
-  position:absolute; bottom:-140px; left:50%; transform:translateX(-50%);
-  width:520px; height:340px;
-  background:radial-gradient(circle, rgba(242,130,79,0.12), transparent 70%);
-}
-.closing h2{ position:relative; margin-bottom:10px; }
-.closing .lead{ position:relative; margin:0 auto; }
-.store-badges{
-  position:relative;
-  display:flex; gap:12px; justify-content:center; margin-top:28px; flex-wrap:wrap;
-}
+.capture input::placeholder{color:var(--slate);}
+.capture input:focus{border-color:var(--accent-dim);outline:none;}
+.store-badges{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;}
 .store-badge{
-  display:flex; align-items:center; gap:9px;
-  border:1px solid var(--panel-line);
-  border-radius:12px;
-  padding:10px 18px;
-  font-size:13px; color:var(--slate);
+  display:flex;align-items:center;gap:9px;
+  border:1px solid var(--panel-line);border-radius:var(--r-sm);
+  padding:10px 18px;font-size:13px;color:var(--slate);
 }
-.store-badge .dot{
-  width:7px; height:7px;
-  background:var(--accent);
-}
+.store-badge .dot{width:7px;height:7px;background:var(--accent);}
+/* Last mark on the page: the wordmark's dusk dot. */
+.close-wordmark{height:44px;width:auto;margin-top:56px;opacity:.95;}
 
-/* Footer */
-footer{
+/* ── 9. Sticky mobile CTA ─────────────────────────────────────────────── */
+.sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  background:rgba(11,14,28,.94);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-top:1px solid var(--panel-line);
-  padding:32px 0;
+  transform:translateY(100%);
+  transition:transform .22s ease;
+  padding-bottom:env(safe-area-inset-bottom);
 }
-.foot-row{
-  display:flex; align-items:center; justify-content:space-between;
-  flex-wrap:wrap; gap:16px;
+.sticky-cta.is-visible{transform:translateY(0);}
+.sticky-inner{
+  max-width:var(--wrap);margin:0 auto;
+  padding:12px var(--gutter);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
 }
-.foot-brand{ display:flex; align-items:center; }
-.foot-brand .brand-wordmark{ height:22px; }
-.foot-links{ display:flex; gap:20px; flex-wrap:wrap; }
-.foot-links a{ font-size:13px; color:var(--slate); }
-.foot-links a:hover{ color:var(--cream); }
-.foot-copy{ font-size:12.5px; color:var(--slate); }
+.sticky-copy{font-size:14px;font-weight:500;color:var(--cream);}
 
-/* Legal */
-.legal{ padding:88px 0 110px; }
-.legal .kicker{ margin-bottom:14px; }
+/* ── 10. Footer + legal ──────────────────────────────────────────────── */
+footer{border-top:1px solid var(--panel-line);padding:32px 0 44px;}
+.foot-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.foot-brand{display:flex;align-items:center;}
+.foot-brand .brand-wordmark{height:22px;}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap;}
+.foot-links a{font-size:13px;color:var(--slate);}
+.foot-links a:hover{color:var(--cream);}
+.foot-copy{font-size:12.5px;color:var(--slate);}
+
+.legal{padding:72px 0 110px;}
+.legal .kicker{margin-bottom:14px;}
 .legal h1{
-  font-size:clamp(30px, 4.5vw, 42px);
-  text-align:left;
-  margin:0 0 10px;
-  max-width:none;
+  font-family:'Fraunces',serif;font-weight:700;
+  font-size:clamp(30px,4.5vw,42px);letter-spacing:-.03em;
+  margin:0 0 10px;max-width:none;
 }
-.legal .updated{ color:var(--slate); font-size:13px; margin-bottom:48px; }
-.legal h2{
-  font-size:20px;
-  text-align:left;
-  margin:40px 0 12px;
-}
-.legal h2:first-of-type{ margin-top:0; }
-.legal p{ color:var(--slate); font-size:15px; line-height:1.75; margin-bottom:12px; max-width:640px; }
-.legal ul{ color:var(--slate); font-size:15px; line-height:1.8; margin:0 0 12px 18px; max-width:640px; }
-.legal a.inline{ color:var(--accent); text-decoration:underline; text-underline-offset:2px; }
-.legal strong{ color:var(--cream); }
+.legal h1 .line{display:inline;}
+.legal .updated{color:var(--slate);font-size:13px;margin-bottom:48px;}
+.legal h2{font-size:20px;margin:40px 0 12px;}
+.legal h2:first-of-type{margin-top:0;}
+.legal p{color:var(--slate);font-size:15px;line-height:1.75;margin-bottom:12px;max-width:640px;}
+.legal ul{color:var(--slate);font-size:15px;line-height:1.8;margin:0 0 12px 18px;max-width:640px;list-style:disc;}
+.legal strong{color:var(--cream);}
+.legal a[href^="mailto"],.legal a.inline{color:var(--accent);text-decoration:underline;text-underline-offset:2px;}
 .support-card{
-  background:var(--panel); border:1px solid var(--panel-line);
-  border-radius:14px; padding:24px 28px; margin-top:8px; max-width:480px;
+  background:var(--panel);border:1px solid var(--panel-line);
+  border-radius:14px;padding:24px 28px;margin-top:8px;max-width:480px;
 }
-.support-card a{ color:var(--accent); font-weight:600; }
-.support-card a:hover{ text-decoration:underline; }
+.support-card a{color:var(--accent);font-weight:600;}
 
-/* Mobile layout */
-@media (max-width:760px){
-  hero-content {
-    display: block;
-    text-align: center;
+/* ── 11. Breakpoints ─────────────────────────────────────────────────────
+   NOTE: the previous file left the max-width:760px block unclosed, which
+   nested the desktop query inside it — so the desktop layout could never
+   match. Both blocks below are closed and independent.
+   ---------------------------------------------------------------------- */
+
+/* Tablet */
+@media (min-width:768px){
+  :root{--rhythm:112px;--gutter:32px;}
+  .lead,.sub{font-size:16.5px;max-width:44ch;}
+  .tiers{grid-template-columns:1fr 1fr;}
+  .capture{flex-direction:row;align-items:center;}
+  .capture input{flex:1;}
+}
+
+/* Desktop */
+@media (min-width:1024px){
+  :root{--rhythm:160px;}
+
+  .hero{padding:96px 0 0;}
+  .hero-grid{
+    grid-template-columns:1.05fr .95fr;
+    align-items:center;gap:72px;
   }
-  .hero.text h1 {
-    margin: 0 auto 20px;
-    font-size: clamp(40px, 10vw, 52px);
+  .scene-time{font-size:clamp(34px,3vw,44px);margin-bottom:14px;}
+  h1{font-size:clamp(64px,6.2vw,88px);line-height:1;letter-spacing:-.045em;}
+  .sub{font-size:19px;line-height:1.55;max-width:52ch;}
+  .hero-visual{justify-content:flex-end;}
+  .phone--hero{margin-bottom:-140px;}
+  .hero-glow{left:38%;width:1100px;height:1100px;}
+
+  /* Alternating columns. Only ONE beat flips (9:07) — at mobile width the
+     alternation vanishes entirely, so it must never carry meaning. */
+  .beat-grid{grid-template-columns:1fr 1fr;align-items:center;gap:80px;}
+  .beat--flip .beat-copy{order:2;}
+  .beat--flip .beat-visual{order:1;}
+  .beat-visual--bleed{margin-right:calc(-1 * (50vw - var(--wrap)/2) - 24px);}
+
+  .lead{font-size:17px;}
+
+  /* The site's single annotation: one accent hairline, one label. */
+  .annotation{
+    display:block;position:absolute;
+    top:31%;right:calc(100% + 18px);
+    width:150px;text-align:right;
   }
-
-  .hero-text .sub {
-    margin: 0 auto 32px;
+  .annotation::after{
+    content:"";position:absolute;
+    top:50%;right:-18px;width:18px;height:1px;
+    background:var(--accent);
   }
+  .annotation-label{font-size:12px;color:var(--accent);letter-spacing:.02em;}
 
-  .hero-actions {
-    align-items: center;
-  }
+  .phone--tilt{transform:rotate(-4deg);}
+  .beat--offclock .beat-visual{padding-top:48px;}
 
-  .secondary-phone {
-    display: none;
-  }
+  /* Sticky bar is a mobile-abandonment fix only. */
+  .sticky-cta{display:none;}
 
-  .hero-visual {
-    width: min(280px, 80vw);
-    margin: 0 auto;
-  }
-
-/* Desktop Cinematic split layout */
-@media (min-width: 1024px){
-  .hero-content {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    align-items: center;
-    text-align: left;
-    gap: 80px;
-    padding-top: 40px;
-  }
-
-.hero-text h1 {
-  margin-left: 0;
-  max-width: 100%;
-  font-size: 96px;
+  .close-inner{max-width:680px;}
+  .close-wordmark{height:52px;}
 }
 
-.hero-text .sub {
-  margin-left: 0;
-}
-
-.hero-actions {
-  align-items: flex-start;
-}
-
-.hero-visual-stack {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.main-phone {
-  position: relative;
-  z-index: 10;
-  transform: rotate(-4deg);
-  box-shadow: 0 40px 80px -28px
-  rgba(0,0,0,0.8);
-}
-
-.secondary-phone {
-  position: absolute;
-  top: 15%;
-  right: -30px;
-  opacity: 0.35;
-  transform: scale(0.9)
-  rotate(8deg);
-  z-index: 5;
-  filter: blur(2px);
-  pointer-events: none;
-}
-
-.hero-glow {
-  left: 25%;
-  width: 1200px;
-  height: 1200px;
-}
+/* Reduced motion */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;}
+  .sticky-cta{transition:none;}
 }
