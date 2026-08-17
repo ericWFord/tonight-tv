@@ -5,11 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#0B0E1C" />
 <title>Tonight — It's 9:03 PM. Nothing's on. Everything's on.</title>
-<meta name="description" content="Tonight tracks your watchlist and tells you what's actually new tonight — across every service you're already subscribed to." />
-<meta property="og:title" content="Tonight — Nothing's on. Everything's on." />
-<meta property="og:description" content="Six apps open, forty minutes gone. Tonight tells you what's actually new tonight." />
-<meta property="og:image" content="assets/shot-tonight.png" />
-<meta property="og:type" content="website" />
+<meta name="description" content="Tonight opens on what actually dropped for the shows you follow. Episode tracking, new releases, and where to watch — in one evening-shaped app." />
 <link rel="icon" href="assets/icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,37 +14,28 @@
 </head>
 <body>
 
-<a class="skip" href="#beat-0904">Skip to content</a>
+<a class="skip" href="#main">Skip to content</a>
 
-<!-- Authored status-bar glyphs. Defined once, reused by every phone.
-     Frozen constants: 4-bar signal, 3-arc wifi, battery at 62%, no
-     carrier, no charging bolt. Only the time string ever varies. -->
-<svg class="svg-defs" aria-hidden="true" focusable="false">
+<!-- Authored status-bar icon cluster. Vector, never captured.
+     4 signal bars / wifi / battery at 62%. No carrier, no charging bolt. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="ps-cluster" viewBox="0 0 66 14">
-    <g fill="currentColor">
-      <rect x="0"  y="8"   width="3" height="4"   rx="1"/>
-      <rect x="5"  y="6"   width="3" height="6"   rx="1"/>
-      <rect x="10" y="3.5" width="3" height="8.5" rx="1"/>
-      <rect x="15" y="1"   width="3" height="11"  rx="1"/>
-    </g>
-    <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-      <path d="M24.2 5.1a8.6 8.6 0 0 1 10.6 0"/>
-      <path d="M26.6 8a5.2 5.2 0 0 1 5.8 0"/>
-    </g>
-    <circle cx="29.5" cy="10.8" r="1.2" fill="currentColor"/>
-    <rect x="44" y="2.5" width="19" height="9.5" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".55"/>
-    <rect x="45.4" y="3.9" width="10.6" height="6.7" rx="1.6" fill="currentColor"/>
-    <path d="M64.4 6.2v2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>
+    <rect x="0"  y="8"   width="3" height="4"   rx="1" fill="currentColor"/>
+    <rect x="5"  y="6"   width="3" height="6"   rx="1" fill="currentColor"/>
+    <rect x="10" y="4"   width="3" height="8"   rx="1" fill="currentColor"/>
+    <rect x="15" y="2"   width="3" height="10"  rx="1" fill="currentColor"/>
+    <path d="M23 6.2a7.2 7.2 0 0 1 9 0" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M25.2 8.6a4 4 0 0 1 4.6 0" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <circle cx="27.5" cy="11" r="1.2" fill="currentColor"/>
+    <rect x="40" y="3" width="22" height="11" rx="3" stroke="currentColor" stroke-width="1.2" fill="none" opacity=".5" transform="translate(0,-1.5)"/>
+    <rect x="41.6" y="4.6" width="13" height="7.8" rx="1.8" fill="currentColor" transform="translate(0,-1.5)"/>
+    <path d="M63.4 5.6v3.2a1.8 1.8 0 0 0 0-3.2z" fill="currentColor" opacity=".5"/>
   </symbol>
 </svg>
 
 <header>
   <nav class="wrap">
-    <a class="brand" href="index.html" aria-label="Tonight home">
-      <!-- Flat cream wordmark in the header: the hero's dusk dot is this
-           viewport's one gradient, so the wordmark must not compete. -->
-      <img class="brand-wordmark" src="assets/wordmark.svg" alt="Tonight" width="120" height="37">
-    </a>
+    <a class="brand" href="index.html" aria-label="Tonight home"><img class="brand-wordmark" src="assets/wordmark.svg" alt="Tonight" width="120" height="37"></a>
     <div class="nav-links">
       <a href="#beat-0904">Features</a>
       <a href="#pricing">Pricing</a>
@@ -58,233 +45,190 @@
   </nav>
 </header>
 
-<main>
+<main id="main">
 
-<!-- ─────────────────────────── 9:03 PM — HERO ─────────────────────────── -->
+<!-- ══ 9:03 PM — hero ══════════════════════════════════════════════════ -->
 <section class="hero">
-  <div class="hero-glow" aria-hidden="true"></div>
   <div class="wrap hero-grid">
-
-    <div class="hero-text">
-      <p class="scene-time">It&rsquo;s 9:03 PM</p>
-      <h1>
-        <span class="line">Nothing&rsquo;s on.</span>
-        <span class="line">Everything&rsquo;s on.<span class="dot-mark" aria-hidden="true"></span></span>
-      </h1>
-      <p class="sub">Six apps open, forty minutes gone, and you still don&rsquo;t know what you can watch. Tonight tracks your watchlist and tells you exactly what&rsquo;s new — tonight.</p>
+    <div class="hero-copy">
+      <h1 class="hero-title">It's 9:03 PM<span class="dot">.</span><br>Nothing's on. Everything's on.</h1>
+      <p class="hero-sub">You have four streaming services and forty minutes. Tonight tells you what actually dropped for the shows you already follow — and nothing else.</p>
       <div class="hero-actions">
         <a class="btn-primary" href="#notify">Get notified at launch</a>
-        <span class="hero-note">Free to use. No account required to try it.</span>
+        <a class="btn-ghost" href="#beat-0904">See how it works</a>
       </div>
+      <p class="hero-meta">Free to use. No account required. iPhone &amp; Android.</p>
     </div>
-
     <div class="hero-visual">
-      <!-- Full device, deliberately cropped by the fold: the crop is the
-           scroll affordance. --bleed pushes this capture's baked-in 5:13
-           status bar out of frame so the authored 9:03 bar is the only
-           one visible. Set --bleed:0 once the shot is re-captured clean. -->
-      <div class="phone phone--hero" style="--w:300px; --ratio:705/1528; --bleed:0;">
+      <div class="phone phone--hero phone--tilt" style="--w:300px;">
+        <div class="phone-island" aria-hidden="true"></div>
         <div class="phone-status">
           <span class="ps-time">9:03</span>
           <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
         </div>
         <div class="phone-screen">
-          <img src="assets/shot-tonight.png" alt="The Tonight home screen: four new episodes ready to watch, the latest episode of The Westies, and what's coming next on the watchlist." width="705" height="1528">
+          <img src="assets/shot-tonight.png" alt="The Tonight screen: The night is on, with four new episodes ready to watch, led by The Westies season 1 episode 7." width="540" height="1157">
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ─────────────────────── 9:04 PM — OPEN THE APP ─────────────────────── -->
-<section class="beat" id="beat-0904">
+<!-- ══ 9:04 PM ═════════════════════════════════════════════════════════ -->
+<section class="beat beat--panel" id="beat-0904">
   <div class="wrap beat-grid">
     <div class="beat-copy">
       <p class="stamp">9:04 PM</p>
       <h2>Four new episodes. Not four thousand titles.</h2>
-      <p class="lead">Tonight opens on what actually dropped for the shows you follow. What&rsquo;s new, what&rsquo;s coming this week, what you let slip. Nothing else.</p>
-      <p class="badge-row"><span class="badge free">Free</span></p>
+      <p>Tonight opens on what actually dropped for the shows you follow. What's new, what's coming this week, what you let slip. Nothing else.</p>
+      <p class="tag">Free</p>
     </div>
     <div class="beat-visual beat-visual--bleed">
-      <!-- TODO(asset): replace with assets/shot-tonight-scrolled.png — the
-           Tonight tab scrolled so "Coming next" and "Still waiting" are
-           both in frame, captured with no status bar. Then set --bleed:0. -->
-      <div class="phone" style="--w:300px; --ratio:705/1528; --bleed:0;">
+      <!-- TODO(asset): swap to assets/shot-tonight-scrolled.png once captured
+           (Tonight tab scrolled so "Coming next" and "Still waiting" are both
+           in frame). Currently reuses the hero capture. -->
+      <div class="phone" style="--w:292px;">
+        <div class="phone-island" aria-hidden="true"></div>
         <div class="phone-status">
           <span class="ps-time">9:04</span>
           <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
         </div>
         <div class="phone-screen">
-          <img src="assets/shot-tonight.png" alt="Tonight's new episodes, with dated cards for what's coming next on the watchlist." loading="lazy" width="705" height="1528">
+          <img src="assets/shot-tonight.png" alt="Tonight's list of new episodes, with what's coming next on your watchlist below it." loading="lazy" width="540" height="1157">
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ──────────────── 9:06 PM — PICK UP WHERE YOU LEFT OFF ──────────────── -->
-<section class="beat beat--panel" id="beat-0906">
-  <div class="wrap beat-grid">
+<!-- ══ 9:06 PM ═════════════════════════════════════════════════════════ -->
+<section class="beat" id="beat-0906">
+  <div class="wrap beat-grid beat-grid--flip">
     <div class="beat-copy">
       <p class="stamp">9:06 PM</p>
       <h2>Fourteen shows in progress. Tonight remembers every one.</h2>
-      <p class="lead">Mark an episode, mark a season, or just let it track. Every show remembers where you stopped — so you never open a season page trying to work out which one you&rsquo;d already seen.</p>
-      <p class="badge-row"><span class="badge free">Free</span></p>
+      <p>Mark an episode, mark a season, or just let it track. Every show remembers where you stopped — so you never open a season page trying to work out which one you'd already seen.</p>
+      <p class="tag">Free</p>
     </div>
     <div class="beat-visual">
-      <!-- The unframed episode-checkbox crop is deliberately OUT until a
-           purpose-shot 2x asset exists (assets/crop-episodes.png). A blurry
-           2.8x magnification of a 540px capture was worse than none. -->
+      <!-- TODO(asset): assets/crop-episodes.png — expanded season rows at 2x/3x,
+           ~16:9, three ticked and one unticked plus the "Mark all" pill.
+           Reinstates the detail crop that was removed for being upscaled. -->
       <div class="phone" style="--w:292px;">
+        <div class="phone-island" aria-hidden="true"></div>
         <div class="phone-status">
           <span class="ps-time">9:06</span>
           <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
         </div>
         <div class="phone-screen">
-          <img src="assets/shot-watchlist.png" alt="The Watchlist screen: 131 saved, 14 in progress, 109 completed, with American Horror Story queued up next at season 13, episode 1." loading="lazy" width="540" height="1157">
+          <img src="assets/shot-watchlist.png" alt="The Watchlist screen: 14 in progress, 109 completed, with American Horror Story queued up next." loading="lazy" width="540" height="1157">
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─────────────────── 9:07 PM — ACTUALLY WATCHABLE ──────────────────── -->
-<section class="beat beat--flip" id="beat-0907">
+<!-- ══ 9:07 PM ═════════════════════════════════════════════════════════ -->
+<section class="beat beat--panel" id="beat-0907">
   <div class="wrap beat-grid">
     <div class="beat-copy">
       <p class="stamp">9:07 PM</p>
-      <h2>It&rsquo;s on AMC+. You have AMC+.</h2>
-      <p class="lead">Tell Tonight what you&rsquo;re subscribed to once. From then on every recommendation is something you can start in the next thirty seconds — no dead ends, no &ldquo;rent for $4.99.&rdquo;</p>
-      <ul class="services" aria-label="Supported services">
-        <li class="service-chip">Netflix</li>
-        <li class="service-chip">Hulu</li>
-        <li class="service-chip">Prime Video</li>
-        <li class="service-chip">Disney+</li>
-        <li class="service-chip">Max</li>
-        <li class="service-chip">Apple TV+</li>
-        <li class="service-chip">Peacock</li>
-        <li class="service-chip">Paramount+</li>
-        <li class="service-chip">AMC+</li>
-        <li class="service-chip is-muted">and more</li>
-      </ul>
-      <p class="badge-row"><span class="badge free">Free</span></p>
+      <h2>It's on one of the four you pay for.</h2>
+      <p>Tell Tonight which services you have, and every show says where to watch it — yours first. No more opening three apps to find out the answer was the second one.</p>
+      <p class="tag">Free</p>
     </div>
-    <div class="beat-visual">
-      <div class="phone-annotated">
-        <div class="phone" style="--w:286px;">
-          <div class="phone-status">
-            <span class="ps-time">9:07</span>
-            <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
-          </div>
-          <div class="phone-screen">
-            <img src="assets/shot-detail.png" alt="A show page for The Walking Dead: Dead City listing every service it streams on, including AMC+, with a New episode available status." loading="lazy" width="540" height="1157">
-          </div>
-        </div>
-        <!-- The site's single annotation. One hairline, no arrow, no
-             circle. Desktop only. -->
-        <p class="annotation" aria-hidden="true"><span class="annotation-label">Every service it&rsquo;s on</span></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ───────────── SOME OTHER NIGHT — DISCOVER (clock breaks) ───────────── -->
-<section class="beat beat--offclock" id="discover">
-  <div class="wrap beat-grid">
-    <div class="beat-copy">
-      <p class="stamp stamp--offclock">Some other night</p>
-      <h2>For the nights when you&rsquo;ve finished everything.</h2>
-      <p class="lead">Recommendations built from what you actually watch and what you actually skip — not the same trending row everyone else is looking at.</p>
-      <p class="badge-row"><span class="badge premium">Premium</span></p>
-    </div>
-    <div class="beat-visual">
-      <!-- Rotated, lower in its container, and no time in the status bar:
-           three independent signals that this section is off the clock. -->
-      <div class="phone phone--tilt" style="--w:290px;">
-        <div class="phone-status phone-status--notime">
-          <span class="ps-time" aria-hidden="true"></span>
+    <div class="beat-visual beat-visual--bleed">
+      <div class="phone" style="--w:292px;">
+        <div class="phone-island" aria-hidden="true"></div>
+        <div class="phone-status">
+          <span class="ps-time">9:07</span>
           <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
         </div>
         <div class="phone-screen">
-          <img src="assets/shot-recs.png" alt="The Discover screen: personalized picks with Watched and Not Interested controls on each card." loading="lazy" width="540" height="1157">
+          <img src="assets/shot-detail.png" alt="A show page with streaming availability, showing the service you already subscribe to first." loading="lazy" width="540" height="1157">
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ───────────────────── PRICING — off the clock ─────────────────────── -->
-<section class="pricing" id="pricing">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="kicker">The fine print, briefly</p>
-      <h2>Free to actually use. Premium if you want it thinking ahead for you.</h2>
+<!-- ══ Some other night — Discover (deliberate clock break) ════════════ -->
+<section class="beat beat--offclock" id="beat-discover">
+  <div class="wrap beat-grid beat-grid--flip">
+    <div class="beat-copy">
+      <p class="stamp stamp--soft">Some other night</p>
+      <h2>And for the nights you've caught up on everything.</h2>
+      <p>Recommendations built from what you've actually finished — not from what a studio paid to put in front of you. Trending, new releases, and shows that fit the evening you're in.</p>
+      <p class="tag tag--premium">Premium</p>
     </div>
-    <div class="tiers">
-      <div class="tier">
-        <p class="tier-name">Free</p>
-        <p class="tier-desc">Everything you need to know what&rsquo;s on and keep track of it.</p>
-        <ul>
-          <li>Full watchlist &amp; episode tracking</li>
-          <li>Tonight&rsquo;s new episodes, at a glance</li>
-          <li>New releases, trending &amp; coming soon</li>
-          <li>Streaming availability for every show</li>
-        </ul>
-      </div>
-      <div class="tier premium">
-        <p class="tier-name">Premium</p>
-        <p class="tier-desc">For when you want Tonight to do the deciding too.</p>
-        <ul>
-          <li>Everything in Free</li>
-          <li>Personalized recommendations</li>
-          <li>More features on the way</li>
-        </ul>
+    <div class="beat-visual">
+      <div class="phone" style="--w:292px;">
+        <div class="phone-island" aria-hidden="true"></div>
+        <div class="phone-status">
+          <span class="ps-time">10:42</span>
+          <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
+        </div>
+        <div class="phone-screen">
+          <img src="assets/shot-recs.png" alt="The Discover screen with personalized recommendations based on shows you've finished." loading="lazy" width="540" height="1157">
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ────────────────────── 9:11 PM — CLOSE, NO DEVICE ─────────────────── -->
+<!-- ══ Pricing ═════════════════════════════════════════════════════════ -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <p class="stamp stamp--center">Pricing</p>
+    <h2 class="section-title">The evening part is free.</h2>
+    <div class="tiers">
+      <div class="tier">
+        <p class="tier-name">Free</p>
+        <p class="tier-price">$0<span>/forever</span></p>
+        <ul class="tier-list">
+          <li>Tonight's new episodes</li>
+          <li>Episode &amp; season tracking</li>
+          <li>Unlimited watchlist</li>
+          <li>Streaming availability</li>
+          <li>New releases &amp; trending</li>
+          <li>No account required</li>
+        </ul>
+      </div>
+      <div class="tier tier--premium">
+        <p class="tier-name">Premium</p>
+        <p class="tier-price">TBD<span>/month</span></p>
+        <ul class="tier-list">
+          <li>Everything in Free</li>
+          <li>Personalized recommendations</li>
+          <li>Built from your own history</li>
+          <li>More on the way</li>
+        </ul>
+        <p class="tier-note">Pricing announced at launch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 9:11 PM — close ═════════════════════════════════════════════════ -->
 <section class="close" id="notify">
   <div class="wrap close-inner">
     <p class="stamp">9:11 PM</p>
-    <h2>You&rsquo;re eight minutes in and already watching.</h2>
-    <p class="lead">Tonight is launching soon on iOS and Android. Leave your email and we&rsquo;ll tell you the day it&rsquo;s live — nothing else, ever.</p>
+    <h2 class="close-title">You're eight minutes in and already watching.</h2>
+    <p class="close-sub">Tonight is coming to iPhone and Android. Leave your email and we'll tell you the day it's live — nothing else, ever.</p>
 
-    <!-- TODO(wire me): no backend yet. Point action= at a Worker route
-         (/api/notify) or a hosted form service. Currently a no-op. -->
     <form class="capture" action="#" method="post" data-capture>
       <label class="sr-only" for="email">Email address</label>
-      <input id="email" name="email" type="email" required autocomplete="email"
-             inputmode="email" placeholder="your@email.com">
+      <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="your@email.com">
       <!-- Honeypot: bots fill every field, humans never see this one. -->
-      <input class="gotcha" type="text" name="_gotcha" tabindex="-1"
-             autocomplete="off" aria-hidden="true">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
       <button class="btn-primary" type="submit">Notify me</button>
     </form>
     <p class="capture-status" role="status" aria-live="polite"></p>
-
-    <div class="store-badges">
-      <span class="store-badge"><span class="dot"></span>App Store — coming soon</span>
-      <span class="store-badge"><span class="dot"></span>Google Play — coming soon</span>
-    </div>
-
-    <!-- The page's last mark is the wordmark's dusk dot: this viewport's
-         one gradient. -->
-    <img class="close-wordmark" src="assets/wordmark.svg" alt="Tonight" width="180" height="55" loading="lazy">
+    <p class="close-fine">One email. No newsletter, no partners.</p>
   </div>
 </section>
 
 </main>
-
-<!-- Mobile-only sticky capture. Appears after 9:06, retires over the close. -->
-<div class="sticky-cta" id="stickyCta" hidden>
-  <div class="sticky-inner">
-    <p class="sticky-copy">Launching soon.</p>
-    <a class="btn-primary btn-sm" href="#notify">Get notified</a>
-  </div>
-</div>
 
 <footer>
   <div class="wrap foot-row">
@@ -302,41 +246,39 @@
   </div>
 </footer>
 
-<script>
-/* Sticky mobile CTA: visible once the reader is past 9:06, hidden again
-   over the close so it never covers the real form. Mobile only — the
-   media query in CSS keeps it off desktop. No animation library. */
-(function () {
-  var bar = document.getElementById('stickyCta');
-  var start = document.getElementById('beat-0906');
-  var end = document.getElementById('notify');
-  if (!bar || !start || !end || !('IntersectionObserver' in window)) return;
+<a class="sticky-cta" href="#notify" data-sticky>Get notified</a>
 
-  var pastStart = false, atEnd = false;
-  function sync() {
-    var show = pastStart && !atEnd;
-    bar.hidden = !show;
-    bar.classList.toggle('is-visible', show);
-  }
+<script>
+/* Sticky mobile CTA: appears once the hero has scrolled away,
+   retires when the real capture form is in view. */
+(function () {
+  var cta = document.querySelector('[data-sticky]');
+  var close = document.getElementById('notify');
+  var hero = document.querySelector('.hero');
+  if (!cta || !close || !hero || !('IntersectionObserver' in window)) return;
+
+  var pastHero = false, atClose = false;
+  function sync() { cta.classList.toggle('is-on', pastHero && !atClose); }
+
   new IntersectionObserver(function (e) {
-    pastStart = e[0].boundingClientRect.top < 0; sync();
-  }, { threshold: 0 }).observe(start);
+    pastHero = !e[0].isIntersecting; sync();
+  }, { threshold: 0 }).observe(hero);
+
   new IntersectionObserver(function (e) {
-    atEnd = e[0].isIntersecting; sync();
-  }, { threshold: 0.05 }).observe(end);
+    atClose = e[0].isIntersecting; sync();
+  }, { threshold: 0.15 }).observe(close);
 })();
 
 /* Async email capture: keeps the reader on the page at the moment of
-   highest intent. Falls back to a normal form POST with JS disabled.
-   Inert until form.action points somewhere real. */
+   highest intent. Falls back to a normal form POST if JS is unavailable.
+   Inert while action="#" — wire a backend before relying on it. */
 (function () {
   var form = document.querySelector('[data-capture]');
   if (!form) return;
   var status = document.querySelector('.capture-status');
-  if (!status) return;
+  if (!form.getAttribute('action') || form.getAttribute('action') === '#') return;
 
   form.addEventListener('submit', function (e) {
-    if (form.getAttribute('action') === '#') return; // not wired yet
     e.preventDefault();
     form.setAttribute('data-busy', '');
     status.className = 'capture-status';
@@ -347,9 +289,7 @@
       body: new FormData(form),
       headers: { accept: 'application/json' }
     })
-      .then(function (r) {
-        return r.json().catch(function () { return { ok: r.ok }; });
-      })
+      .then(function (r) { return r.json().catch(function () { return { ok: r.ok }; }); })
       .then(function (d) {
         if (!d.ok) throw new Error(d.error || 'Something went wrong.');
         form.hidden = true;
