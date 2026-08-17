@@ -410,3 +410,57 @@ footer{
   .hero-actions{ margin-bottom:48px; }
   .closing{ padding:48px 24px; }
 }
+
+/* Cinematic split layout */
+@media (max-width: 1024px){
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    align-items: center;
+    trxt-align: left;
+    gap: 80px;
+    padding-top: 40px;
+  }
+
+.hero-text h1 {
+  margin-left: 0;
+  max-width: 100%;
+  font-size: 96px;
+}
+
+.hero-text .sub {
+  margin-left: 0;
+}
+
+.her-actions {
+  align-items: flex-start;
+}
+
+.hero-visual-stack {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main-phone {
+  z-index: 5;
+  transform: rotate(-4deg); 
+}
+
+.secondary-phone {
+  position: absolute;
+  top: 60px;
+  right: -40px;
+  opscity: 0.4;
+  transform: scale(0.9)
+  rotate(8deg);
+  z-index: 4;
+  filter: blur(2px);
+}
+
+.hero-glow {
+  left: 25%;
+  width: 1200px;
+  height: 1200px;
+}
+}
