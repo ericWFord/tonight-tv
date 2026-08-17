@@ -63,7 +63,6 @@ nav{
 .hero{
   position:relative;
   padding:96px 0 0;
-  text-align:center;
   overflow:hidden;
 }
 .hero-glow{
@@ -92,7 +91,6 @@ h1{
   line-height:1.06;
   letter-spacing:-0.02em;
   max-width:780px;
-  margin:0 auto 24px;
   color:var(--cream);
 }
 h1 .accent{
@@ -104,12 +102,11 @@ h1 .accent{
   font-size:clamp(16px, 1.9vw, 18.5px);
   color:var(--slate);
   max-width:520px;
-  margin:0 auto 40px;
   line-height:1.6;
 }
 .hero-actions{
   position:relative;
-  display:flex; flex-direction:column; align-items:center; gap:14px;
+  display:flex; flex-direction:column; align-items:flex-start; gap:14px;
   margin-bottom:64px;
 }
 .btn-primary{
@@ -227,39 +224,6 @@ h2{
   line-height:1.5;
   max-width:260px;
 }
-
-/* Mechanism */
-.split{
-  display:grid;
-  grid-template-columns:1.15fr 0.85fr;
-  gap:56px;
-  align-items:center;
-}
-.split h2{ margin-bottom:14px; }
-.split .lead{ margin-top:0; max-width:none; }
-.mech-card{
-  background:var(--panel);
-  border:1px solid var(--panel-line);
-  border-radius:18px;
-  padding:8px 22px;
-}
-.mech-row{
-  display:flex; align-items:center; gap:14px;
-  padding:16px 0;
-  border-bottom:1px solid var(--panel-line);
-}
-.mech-row:last-child{ border-bottom:none; }
-.mech-time{
-  font-size:11px; font-weight:600; color:var(--slate);
-  width:58px; flex-shrink:0;
-  letter-spacing:0.05em;
-}
-.mech-dot{
-  width:7px; height:7px; flex-shrink:0;
-  background:var(--accent);
-  border-radius:50%;
-}
-.mech-label{ font-size:14.5px; color:var(--cream); }
 
 /* Features — continuous panel */
 .features{
