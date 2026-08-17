@@ -148,8 +148,11 @@ nav{display:flex;align-items:center;justify-content:space-between;height:64px;ga
 .nav-cta:hover{border-color:var(--accent-dim);}
 
 /* ── 4. Phone component ──────────────────────────────────────────────────
-   One frame for the whole site. Matte near-black bezel, hairline in the
-   app's own --panel-line, single soft shadow. No hands, no desk, no gloss.
+   One frame for the whole site. --w set per instance in markup.
+   --ratio  : native ratio of that instance's capture
+   --bleed  : % of screen height to scale past the top edge, used to push
+              a CAPTURED status bar out of frame so the authored one is
+              the only bar visible. 0 once shots are re-captured clean.
    ---------------------------------------------------------------------- */
 .phone{
   position:relative;
@@ -160,40 +163,32 @@ nav{display:flex;align-items:center;justify-content:space-between;height:64px;ga
   background:#0A0C14;
   border:1px solid var(--panel-line);
   box-shadow:0 40px 80px -20px rgba(0,0,0,.7);
+  flex-shrink:0;
 }
 .phone-screen{
   position:relative;
-  border-radius:calc(var(--phone-radius) - var(--phone-pad));
   overflow:hidden;
+  border-radius:calc(var(--phone-radius) - var(--phone-pad));
   background:var(--ink);
-  aspect-ratio:var(--screen-ratio);
+  aspect-ratio:var(--ratio, 540 / 1157);
 }
 .phone-screen img{
-  width:100%;height:auto;
-  /* --crop trims a captured status bar off the top so the authored bar
-     can replace it. Set --crop:0 once shots are re-captured clean. */
-  margin-top:calc(-1 * var(--crop,0px));
-}
-/* --focus:bottom reframes the same capture lower, standing in for a
-   scrolled state without a second screenshot. */
-.phone-screen:has(img[style]),
-.phone[style*="--focus:bottom"] .phone-screen img{
-  margin-top:auto;
-}
-.phone[style*="--focus:bottom"] .phone-screen{
-  display:flex;align-items:flex-end;
-}
-.phone[style*="--focus:bottom"] .phone-screen img{
-  margin-top:0;margin-bottom:-34%;
+  position:absolute;
+  left:0;
+  top:calc(-1 * var(--bleed, 0%));
+  width:100%;
+  height:calc(100% + var(--bleed, 0%));
+  object-fit:cover;
+  object-position:50% 0;
 }
 
-/* Authored status bar — vector, not captured. */
+/* Authored status bar — vector, never captured. Above the image, always. */
 .phone-status{
   position:absolute;
-  top:calc(var(--phone-pad) + 10px);
+  top:calc(var(--phone-pad) + 11px);
   left:calc(var(--phone-pad) + 26px);
   right:calc(var(--phone-pad) + 22px);
-  z-index:3;
+  z-index:4;
   display:flex;align-items:center;justify-content:space-between;
   color:var(--cream);
   pointer-events:none;
@@ -203,7 +198,6 @@ nav{display:flex;align-items:center;justify-content:space-between;height:64px;ga
   font-variant-numeric:tabular-nums;
 }
 .ps-cluster{width:50px;height:11px;color:var(--cream);}
-/* Off-clock section: icon cluster only. Never a fake time, never a dash. */
 .phone-status--notime .ps-time{display:none;}
 
 .phone--tilt{transform:rotate(-2.5deg);}
