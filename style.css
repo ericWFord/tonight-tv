@@ -14,7 +14,7 @@
      8. Close (9:11)
      9. Sticky mobile CTA
     10. Footer + legal pages
-    11. Breakpoints  ← the old file's fatal unclosed-brace bug lived here
+    11. Breakpoints
    ======================================================================== */
 
 /* ── 1. Tokens ─────────────────────────────────────────────────────────── */
@@ -38,10 +38,9 @@
   --r-md:18px;
   --r-sm:12px;
 
-  /* Phone frame. --w is set per instance in the markup. */
+  /* Phone frame. --w, --ratio and --bleed are set per instance in markup. */
   --phone-radius:44px;
   --phone-pad:9px;
-  --screen-ratio:540 / 1157;   /* native ratio of the shipped captures */
 }
 
 /* ── 2. Base + a11y ───────────────────────────────────────────────────── */
@@ -65,6 +64,7 @@ ul{list-style:none;}
   position:absolute;width:1px;height:1px;padding:0;overflow:hidden;
   clip:rect(0 0 0 0);white-space:nowrap;border:0;
 }
+.gotcha{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;}
 .skip{
   position:absolute;left:-9999px;top:0;z-index:100;
   background:var(--accent);color:#1A0E08;padding:12px 20px;
@@ -148,11 +148,18 @@ nav{display:flex;align-items:center;justify-content:space-between;height:64px;ga
 .nav-cta:hover{border-color:var(--accent-dim);}
 
 /* ── 4. Phone component ──────────────────────────────────────────────────
-   One frame for the whole site. --w set per instance in markup.
-   --ratio  : native ratio of that instance's capture
-   --bleed  : % of screen height to scale past the top edge, used to push
-              a CAPTURED status bar out of frame so the authored one is
-              the only bar visible. 0 once shots are re-captured clean.
+   One frame for the whole site. Per-instance custom properties:
+     --w      : frame width
+     --ratio  : native aspect ratio of that instance's capture
+     --bleed  : % of screen height scaled past the TOP edge, used only to
+                push a CAPTURED status bar out of frame so the authored
+                one is the only bar visible. Set to 0 once every shot is
+                re-captured without a status bar.
+
+   Percentage top/height on an absolutely-positioned child resolve against
+   the container's height, so this is deterministic — unlike the earlier
+   percentage margin-top, which resolved against WIDTH and produced the
+   double-status-bar bug.
    ---------------------------------------------------------------------- */
 .phone{
   position:relative;
@@ -182,7 +189,7 @@ nav{display:flex;align-items:center;justify-content:space-between;height:64px;ga
   object-position:50% 0;
 }
 
-/* Authored status bar — vector, never captured. Above the image, always. */
+/* Authored status bar — vector, never captured. Always above the image. */
 .phone-status{
   position:absolute;
   top:calc(var(--phone-pad) + 11px);
@@ -198,6 +205,7 @@ nav{display:flex;align-items:center;justify-content:space-between;height:64px;ga
   font-variant-numeric:tabular-nums;
 }
 .ps-cluster{width:50px;height:11px;color:var(--cream);}
+/* Off-clock section: icon cluster only. Never a fake time, never a dash. */
 .phone-status--notime .ps-time{display:none;}
 
 .phone--tilt{transform:rotate(-2.5deg);}
@@ -246,7 +254,9 @@ h1 .line{display:block;}
 .phone--hero{margin-bottom:-90px;}
 
 /* ── 6. Beats ─────────────────────────────────────────────────────────── */
-.beat{padding:var(--rhythm) 0;}
+/* overflow:hidden contains every device bleed inside its own section, so a
+   bleeding phone can never overlap the section above or below it. */
+.beat{padding:var(--rhythm) 0;overflow:hidden;}
 .beat--panel{
   background:var(--panel);
   border-top:1px solid var(--panel-line);
@@ -255,29 +265,13 @@ h1 .line{display:block;}
 /* Mobile block order, every beat, no exceptions:
    stamp → headline → body → device. Copy first, always. */
 .beat-grid{display:grid;gap:40px;}
-.beat-visual{display:flex;justify-content:center;}
+.beat-visual{display:flex;justify-content:center;min-width:0;}
 
-/* Cropped bleed: device runs off the container edge. */
-.beat-visual--bleed{justify-content:flex-end;margin-right:calc(-1 * var(--gutter) - 40px);}
+/* Cropped bleed: hints at continuation. Tuned so the device's bottom tab
+   bar stays in frame — an amputated phone reads as a bug, not a crop. */
+.beat-visual--bleed{justify-content:flex-end;margin-right:-56px;}
 
-/* 9:06 — device plus the site's only unframed UI crop. */
-.phone-with-crop{position:relative;padding-bottom:34px;}
-.detail-crop{
-  position:absolute;left:-14px;bottom:0;
-  width:40%;
-  border-radius:var(--r-sm);
-  border:1px solid var(--panel-line);
-  background:var(--ink);
-  overflow:hidden;
-  box-shadow:0 18px 40px -18px rgba(0,0,0,.6);
-}
-.detail-crop img{
-  width:280%;                 /* scale up, then window onto the season rows */
-  margin-left:-52%;
-  margin-top:-190%;
-}
-
-/* 9:07 — single annotation on the whole site. Hairline only. */
+/* 9:07 — the single annotation on the whole site. Hairline only. */
 .phone-annotated{position:relative;}
 .annotation{display:none;}
 
@@ -316,14 +310,21 @@ h1 .line{display:block;}
 .close-inner{max-width:620px;}
 .close .lead{max-width:46ch;}
 .capture{display:flex;flex-direction:column;gap:12px;margin-top:32px;max-width:440px;}
-.capture input{
+.capture input[type="email"]{
   width:100%;padding:15px 18px;
   background:var(--panel);color:var(--cream);
   border:1px solid var(--panel-line);border-radius:100px;
   font-family:inherit;font-size:15px;
 }
-.capture input::placeholder{color:var(--slate);}
-.capture input:focus{border-color:var(--accent-dim);outline:none;}
+.capture input[type="email"]::placeholder{color:var(--slate);}
+.capture input[type="email"]:focus{border-color:var(--accent-dim);outline:none;}
+.capture[data-busy] button{opacity:.6;pointer-events:none;}
+.capture-status{
+  margin-top:14px;font-size:14px;color:var(--slate);
+  min-height:1.4em;                 /* reserve space so nothing shifts */
+}
+.capture-status.is-ok{color:var(--accent-soft);}
+.capture-status.is-err{color:var(--accent);}
 .store-badges{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;}
 .store-badge{
   display:flex;align-items:center;gap:9px;
@@ -384,9 +385,9 @@ footer{border-top:1px solid var(--panel-line);padding:32px 0 44px;}
 .support-card a{color:var(--accent);font-weight:600;}
 
 /* ── 11. Breakpoints ─────────────────────────────────────────────────────
-   NOTE: the previous file left the max-width:760px block unclosed, which
+   NOTE: the original file left the max-width:760px block unclosed, which
    nested the desktop query inside it — so the desktop layout could never
-   match. Both blocks below are closed and independent.
+   match at any width. Both blocks below are closed and independent.
    ---------------------------------------------------------------------- */
 
 /* Tablet */
@@ -395,12 +396,15 @@ footer{border-top:1px solid var(--panel-line);padding:32px 0 44px;}
   .lead,.sub{font-size:16.5px;max-width:44ch;}
   .tiers{grid-template-columns:1fr 1fr;}
   .capture{flex-direction:row;align-items:center;}
-  .capture input{flex:1;}
+  .capture input[type="email"]{flex:1;}
 }
 
 /* Desktop */
 @media (min-width:1024px){
-  :root{--rhythm:160px;}
+  /* 120px, not 160px: the phone column already sets a tall row, so 160px
+     on top of a centred short copy block opened ~340px of dead midnight
+     above each headline. */
+  :root{--rhythm:120px;}
 
   .hero{padding:96px 0 0;}
   .hero-grid{
@@ -416,10 +420,17 @@ footer{border-top:1px solid var(--panel-line);padding:32px 0 44px;}
 
   /* Alternating columns. Only ONE beat flips (9:07) — at mobile width the
      alternation vanishes entirely, so it must never carry meaning. */
-  .beat-grid{grid-template-columns:1fr 1fr;align-items:center;gap:80px;}
+  .beat-grid{
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:64px;
+  }
+  .beat-copy{padding-block:8px;}
   .beat--flip .beat-copy{order:2;}
   .beat--flip .beat-visual{order:1;}
-  .beat-visual--bleed{margin-right:calc(-1 * (50vw - var(--wrap)/2) - 24px);}
+  /* Modest bleed: enough to imply the device continues past the edge,
+     not enough to cut off its bottom tab bar. */
+  .beat-visual--bleed{margin-right:-72px;}
 
   .lead{font-size:17px;}
 

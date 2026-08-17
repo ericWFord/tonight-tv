@@ -80,9 +80,10 @@
 
     <div class="hero-visual">
       <!-- Full device, deliberately cropped by the fold: the crop is the
-           scroll affordance. --crop trims the captured 5:13 status bar so
-           the authored 9:03 bar replaces it. -->
-      <div class="phone phone--hero" style="--w:300px; --crop:3.5%;">
+           scroll affordance. --bleed pushes this capture's baked-in 5:13
+           status bar out of frame so the authored 9:03 bar is the only
+           one visible. Set --bleed:0 once the shot is re-captured clean. -->
+      <div class="phone phone--hero" style="--w:300px; --ratio:705/1528; --bleed:3.4%;">
         <div class="phone-status">
           <span class="ps-time">9:03</span>
           <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
@@ -106,15 +107,16 @@
       <p class="badge-row"><span class="badge free">Free</span></p>
     </div>
     <div class="beat-visual beat-visual--bleed">
-      <!-- Same screen, framed lower via object-position: establishes that
-           the app scrolls without needing a second phone. -->
-      <div class="phone" style="--w:300px; --crop:3.5%; --focus:bottom;">
+      <!-- TODO(asset): replace with assets/shot-tonight-scrolled.png — the
+           Tonight tab scrolled so "Coming next" and "Still waiting" are
+           both in frame, captured with no status bar. Then set --bleed:0. -->
+      <div class="phone" style="--w:300px; --ratio:705/1528; --bleed:3.4%;">
         <div class="phone-status">
           <span class="ps-time">9:04</span>
           <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
         </div>
         <div class="phone-screen">
-          <img src="assets/shot-tonight.png" alt="Coming next on your watchlist, with dated cards for the next ten shows." loading="lazy" width="705" height="1528">
+          <img src="assets/shot-tonight.png" alt="Tonight's new episodes, with dated cards for what's coming next on the watchlist." loading="lazy" width="705" height="1528">
         </div>
       </div>
     </div>
@@ -131,22 +133,17 @@
       <p class="badge-row"><span class="badge free">Free</span></p>
     </div>
     <div class="beat-visual">
-      <div class="phone-with-crop">
-        <div class="phone" style="--w:292px;">
-          <div class="phone-status">
-            <span class="ps-time">9:06</span>
-            <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
-          </div>
-          <div class="phone-screen">
-            <img src="assets/shot-watchlist.png" alt="The Watchlist screen: 131 saved, 14 in progress, 109 completed, with American Horror Story queued up next at season 13, episode 1." loading="lazy" width="540" height="1157">
-          </div>
+      <!-- The unframed episode-checkbox crop is deliberately OUT until a
+           purpose-shot 2x asset exists (assets/crop-episodes.png). A blurry
+           2.8x magnification of a 540px capture was worse than none. -->
+      <div class="phone" style="--w:292px;">
+        <div class="phone-status">
+          <span class="ps-time">9:06</span>
+          <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
         </div>
-        <!-- The one place UI appears outside a frame. Justified: the
-             episode checkboxes are the proof of the claim and are
-             illegible at device scale. -->
-        <figure class="detail-crop" aria-label="Episode tracking detail">
-          <img src="assets/shot-detail.png" alt="Season rows with per-episode checkmarks and a Mark all control." loading="lazy" width="540" height="1157">
-        </figure>
+        <div class="phone-screen">
+          <img src="assets/shot-watchlist.png" alt="The Watchlist screen: 131 saved, 14 in progress, 109 completed, with American Horror Story queued up next at season 13, episode 1." loading="lazy" width="540" height="1157">
+        </div>
       </div>
     </div>
   </div>
@@ -184,8 +181,8 @@
             <img src="assets/shot-detail.png" alt="A show page for The Walking Dead: Dead City listing every service it streams on, including AMC+, with a New episode available status." loading="lazy" width="540" height="1157">
           </div>
         </div>
-        <!-- Single annotation for the whole site. One hairline, no arrow,
-             no circle. Desktop only. -->
+        <!-- The site's single annotation. One hairline, no arrow, no
+             circle. Desktop only. -->
         <p class="annotation" aria-hidden="true"><span class="annotation-label">Every service it&rsquo;s on</span></p>
       </div>
     </div>
@@ -255,14 +252,18 @@
     <h2>You&rsquo;re eight minutes in and already watching.</h2>
     <p class="lead">Tonight is launching soon on iOS and Android. Leave your email and we&rsquo;ll tell you the day it&rsquo;s live — nothing else, ever.</p>
 
-    <!-- TODO(wire me): no backend yet. Point action= at a Worker route,
-         Formspark, Buttondown, etc. Currently a no-op. -->
-    <form class="capture" action="#" method="post">
+    <!-- TODO(wire me): no backend yet. Point action= at a Worker route
+         (/api/notify) or a hosted form service. Currently a no-op. -->
+    <form class="capture" action="#" method="post" data-capture>
       <label class="sr-only" for="email">Email address</label>
       <input id="email" name="email" type="email" required autocomplete="email"
              inputmode="email" placeholder="your@email.com">
+      <!-- Honeypot: bots fill every field, humans never see this one. -->
+      <input class="gotcha" type="text" name="_gotcha" tabindex="-1"
+             autocomplete="off" aria-hidden="true">
       <button class="btn-primary" type="submit">Notify me</button>
     </form>
+    <p class="capture-status" role="status" aria-live="polite"></p>
 
     <div class="store-badges">
       <span class="store-badge"><span class="dot"></span>App Store — coming soon</span>
@@ -323,6 +324,44 @@
   new IntersectionObserver(function (e) {
     atEnd = e[0].isIntersecting; sync();
   }, { threshold: 0.05 }).observe(end);
+})();
+
+/* Async email capture: keeps the reader on the page at the moment of
+   highest intent. Falls back to a normal form POST with JS disabled.
+   Inert until form.action points somewhere real. */
+(function () {
+  var form = document.querySelector('[data-capture]');
+  if (!form) return;
+  var status = document.querySelector('.capture-status');
+  if (!status) return;
+
+  form.addEventListener('submit', function (e) {
+    if (form.getAttribute('action') === '#') return; // not wired yet
+    e.preventDefault();
+    form.setAttribute('data-busy', '');
+    status.className = 'capture-status';
+    status.textContent = 'One moment…';
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { accept: 'application/json' }
+    })
+      .then(function (r) {
+        return r.json().catch(function () { return { ok: r.ok }; });
+      })
+      .then(function (d) {
+        if (!d.ok) throw new Error(d.error || 'Something went wrong.');
+        form.hidden = true;
+        status.className = 'capture-status is-ok';
+        status.textContent = "You're on the list. We'll email you the day it's live.";
+      })
+      .catch(function (err) {
+        status.className = 'capture-status is-err';
+        status.textContent = err.message || "Couldn't sign you up — try again in a moment.";
+      })
+      .finally(function () { form.removeAttribute('data-busy'); });
+  });
 })();
 </script>
 
