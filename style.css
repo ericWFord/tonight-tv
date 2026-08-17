@@ -443,19 +443,23 @@ footer{
 }
 
 .main-phone {
-  z-index: 5;
-  transform: rotate(-4deg); 
+  position: relative;
+  z-index: 10;
+  transform: rotate(-4deg);
+  box-shadow: 0 40px 80px -28px;
+  rgba(0,0,0,0.8);
 }
 
 .secondary-phone {
   position: absolute;
-  top: 60px;
-  right: -40px;
-  opscity: 0.4;
+  top: 15%;
+  right: -30px;
+  opscity: 0.35;
   transform: scale(0.9)
   rotate(8deg);
-  z-index: 4;
+  z-index: 5;
   filter: blur(2px);
+  pointer-events: none;
 }
 
 .hero-glow {
