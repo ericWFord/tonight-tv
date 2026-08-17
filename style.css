@@ -78,7 +78,7 @@ nav{
   font-family:'Fraunces', serif;
   font-style:italic;
   font-weight:400;
-  font-size:15px;
+  font-size:clamp(40px, 6.8vw, 72px);
   color:var(--slate);
   letter-spacing:0.02em;
   margin-bottom:20px;
