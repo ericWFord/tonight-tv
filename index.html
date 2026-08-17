@@ -3,178 +3,287 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tonight — Nothing's on. Everything's on.</title>
+<meta name="theme-color" content="#0B0E1C" />
+<title>Tonight — It's 9:03 PM. Nothing's on. Everything's on.</title>
 <meta name="description" content="Tonight tracks your watchlist and tells you what's actually new tonight — across every service you're already subscribed to." />
+<meta property="og:title" content="Tonight — Nothing's on. Everything's on." />
+<meta property="og:description" content="Six apps open, forty minutes gone. Tonight tells you what's actually new tonight." />
+<meta property="og:image" content="assets/shot-tonight.png" />
+<meta property="og:type" content="website" />
 <link rel="icon" href="assets/icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<a class="skip" href="#beat-0904">Skip to content</a>
+
+<!-- Authored status-bar glyphs. Defined once, reused by every phone.
+     Frozen constants: 4-bar signal, 3-arc wifi, battery at 62%, no
+     carrier, no charging bolt. Only the time string ever varies. -->
+<svg class="svg-defs" aria-hidden="true" focusable="false">
+  <symbol id="ps-cluster" viewBox="0 0 66 14">
+    <g fill="currentColor">
+      <rect x="0"  y="8"   width="3" height="4"   rx="1"/>
+      <rect x="5"  y="6"   width="3" height="6"   rx="1"/>
+      <rect x="10" y="3.5" width="3" height="8.5" rx="1"/>
+      <rect x="15" y="1"   width="3" height="11"  rx="1"/>
+    </g>
+    <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <path d="M24.2 5.1a8.6 8.6 0 0 1 10.6 0"/>
+      <path d="M26.6 8a5.2 5.2 0 0 1 5.8 0"/>
+    </g>
+    <circle cx="29.5" cy="10.8" r="1.2" fill="currentColor"/>
+    <rect x="44" y="2.5" width="19" height="9.5" rx="2.6" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".55"/>
+    <rect x="45.4" y="3.9" width="10.6" height="6.7" rx="1.6" fill="currentColor"/>
+    <path d="M64.4 6.2v2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>
+  </symbol>
+</svg>
+
 <header>
   <nav class="wrap">
     <a class="brand" href="index.html" aria-label="Tonight home">
+      <!-- Flat cream wordmark in the header: the hero's dusk dot is this
+           viewport's one gradient, so the wordmark must not compete. -->
       <img class="brand-wordmark" src="assets/wordmark.svg" alt="Tonight" width="120" height="37">
     </a>
     <div class="nav-links">
-      <a href="#features">Features</a>
+      <a href="#beat-0904">Features</a>
       <a href="#pricing">Pricing</a>
       <a href="support.html">Support</a>
+      <a class="nav-cta" href="#notify">Get notified</a>
     </div>
   </nav>
 </header>
 
+<main>
+
+<!-- ─────────────────────────── 9:03 PM — HERO ─────────────────────────── -->
 <section class="hero">
-  <div class="hero-glow"></div>
-  <div class="wrap hero-content">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+
     <div class="hero-text">
-     <div class="scene-time">It's 9:03 PM</div>
-       <h1>Nothing's on. <span class="accent">Everything's on.</span></h1>
-    <p class="sub">Six apps open, forty minutes gone, and you still don't know what you can watch. Tonight tracks your watchlist and tells you exactly what's new — tonight.</p>
-    <div class="hero-actions">
-      <a class="btn-primary" href="#features">See how it works</a>
-      <span class="hero-note">Free to use. No account required to try it.</span>
+      <p class="scene-time">It&rsquo;s 9:03 PM</p>
+      <h1>
+        <span class="line">Nothing&rsquo;s on.</span>
+        <span class="line">Everything&rsquo;s on.<span class="dot-mark" aria-hidden="true"></span></span>
+      </h1>
+      <p class="sub">Six apps open, forty minutes gone, and you still don&rsquo;t know what you can watch. Tonight tracks your watchlist and tells you exactly what&rsquo;s new — tonight.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#notify">Get notified at launch</a>
+        <span class="hero-note">Free to use. No account required to try it.</span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <!-- Full device, deliberately cropped by the fold: the crop is the
+           scroll affordance. --crop trims the captured 5:13 status bar so
+           the authored 9:03 bar replaces it. -->
+      <div class="phone phone--hero" style="--w:300px; --crop:3.5%;">
+        <div class="phone-status">
+          <span class="ps-time">9:03</span>
+          <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
+        </div>
+        <div class="phone-screen">
+          <img src="assets/shot-tonight.png" alt="The Tonight home screen: four new episodes ready to watch, the latest episode of The Westies, and what's coming next on the watchlist." width="705" height="1528">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────────────── 9:04 PM — OPEN THE APP ─────────────────────── -->
+<section class="beat" id="beat-0904">
+  <div class="wrap beat-grid">
+    <div class="beat-copy">
+      <p class="stamp">9:04 PM</p>
+      <h2>Four new episodes. Not four thousand titles.</h2>
+      <p class="lead">Tonight opens on what actually dropped for the shows you follow. What&rsquo;s new, what&rsquo;s coming this week, what you let slip. Nothing else.</p>
+      <p class="badge-row"><span class="badge free">Free</span></p>
+    </div>
+    <div class="beat-visual beat-visual--bleed">
+      <!-- Same screen, framed lower via object-position: establishes that
+           the app scrolls without needing a second phone. -->
+      <div class="phone" style="--w:300px; --crop:3.5%; --focus:bottom;">
+        <div class="phone-status">
+          <span class="ps-time">9:04</span>
+          <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
+        </div>
+        <div class="phone-screen">
+          <img src="assets/shot-tonight.png" alt="Coming next on your watchlist, with dated cards for the next ten shows." loading="lazy" width="705" height="1528">
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <div class="hero-visual-stack">
-    <div class="hero-visual main-phone">
-      <img src="assets/shot-tonight.png" alt="The Tonight app home screen showing tonight's new episode and what's coming up next on the watchlist." </div>
-      <div class="hero-visual secondary-phone">
-        <img src="assets/shot-watchlist.png" alt="Watchlist screen" </div>
-    <div class="hero-visual tertiary-phone">
-      <img src="assets/shot-discover.png" alt="Discover screen" </div>
-    <div class="hero-fade"></div>
+<!-- ──────────────── 9:06 PM — PICK UP WHERE YOU LEFT OFF ──────────────── -->
+<section class="beat beat--panel" id="beat-0906">
+  <div class="wrap beat-grid">
+    <div class="beat-copy">
+      <p class="stamp">9:06 PM</p>
+      <h2>Fourteen shows in progress. Tonight remembers every one.</h2>
+      <p class="lead">Mark an episode, mark a season, or just let it track. Every show remembers where you stopped — so you never open a season page trying to work out which one you&rsquo;d already seen.</p>
+      <p class="badge-row"><span class="badge free">Free</span></p>
+    </div>
+    <div class="beat-visual">
+      <div class="phone-with-crop">
+        <div class="phone" style="--w:292px;">
+          <div class="phone-status">
+            <span class="ps-time">9:06</span>
+            <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
+          </div>
+          <div class="phone-screen">
+            <img src="assets/shot-watchlist.png" alt="The Watchlist screen: 131 saved, 14 in progress, 109 completed, with American Horror Story queued up next at season 13, episode 1." loading="lazy" width="540" height="1157">
+          </div>
+        </div>
+        <!-- The one place UI appears outside a frame. Justified: the
+             episode checkboxes are the proof of the claim and are
+             illegible at device scale. -->
+        <figure class="detail-crop" aria-label="Episode tracking detail">
+          <img src="assets/shot-detail.png" alt="Season rows with per-episode checkmarks and a Mark all control." loading="lazy" width="540" height="1157">
+        </figure>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="wrap showcase" id="showcase">
-  <div class="section-head">
-    <div class="kicker">See it in action</div>
-    <h2>Real screens. No filler.</h2>
-  </div>
-  <div class="showcase-grid">
-    <figure class="showcase-item">
-      <div class="showcase-frame">
-        <img src="assets/shot-watchlist.png" alt="Watchlist screen with 131 saved shows, continue watching, and actively watching rows." loading="lazy">
+<!-- ─────────────────── 9:07 PM — ACTUALLY WATCHABLE ──────────────────── -->
+<section class="beat beat--flip" id="beat-0907">
+  <div class="wrap beat-grid">
+    <div class="beat-copy">
+      <p class="stamp">9:07 PM</p>
+      <h2>It&rsquo;s on AMC+. You have AMC+.</h2>
+      <p class="lead">Tell Tonight what you&rsquo;re subscribed to once. From then on every recommendation is something you can start in the next thirty seconds — no dead ends, no &ldquo;rent for $4.99.&rdquo;</p>
+      <ul class="services" aria-label="Supported services">
+        <li class="service-chip">Netflix</li>
+        <li class="service-chip">Hulu</li>
+        <li class="service-chip">Prime Video</li>
+        <li class="service-chip">Disney+</li>
+        <li class="service-chip">Max</li>
+        <li class="service-chip">Apple TV+</li>
+        <li class="service-chip">Peacock</li>
+        <li class="service-chip">Paramount+</li>
+        <li class="service-chip">AMC+</li>
+        <li class="service-chip is-muted">and more</li>
+      </ul>
+      <p class="badge-row"><span class="badge free">Free</span></p>
+    </div>
+    <div class="beat-visual">
+      <div class="phone-annotated">
+        <div class="phone" style="--w:286px;">
+          <div class="phone-status">
+            <span class="ps-time">9:07</span>
+            <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
+          </div>
+          <div class="phone-screen">
+            <img src="assets/shot-detail.png" alt="A show page for The Walking Dead: Dead City listing every service it streams on, including AMC+, with a New episode available status." loading="lazy" width="540" height="1157">
+          </div>
+        </div>
+        <!-- Single annotation for the whole site. One hairline, no arrow,
+             no circle. Desktop only. -->
+        <p class="annotation" aria-hidden="true"><span class="annotation-label">Every service it&rsquo;s on</span></p>
       </div>
-      <figcaption>Every show you're tracking, with progress that updates itself.</figcaption>
-    </figure>
-    <figure class="showcase-item">
-      <div class="showcase-frame">
-        <img src="assets/shot-detail.png" alt="Show detail page with streaming info, genres, and episode tracking." loading="lazy">
-      </div>
-      <figcaption>Tap a show, see exactly where it's streaming.</figcaption>
-    </figure>
-    <figure class="showcase-item">
-      <div class="showcase-frame">
-        <img src="assets/shot-recs.png" alt="Discover screen with personalized picks and watched / not interested actions." loading="lazy">
-      </div>
-      <figcaption>Premium picks, built from what you actually watch.</figcaption>
-    </figure>
+    </div>
   </div>
 </section>
 
-<section class="features" id="features">
+<!-- ───────────── SOME OTHER NIGHT — DISCOVER (clock breaks) ───────────── -->
+<section class="beat beat--offclock" id="discover">
+  <div class="wrap beat-grid">
+    <div class="beat-copy">
+      <p class="stamp stamp--offclock">Some other night</p>
+      <h2>For the nights when you&rsquo;ve finished everything.</h2>
+      <p class="lead">Recommendations built from what you actually watch and what you actually skip — not the same trending row everyone else is looking at.</p>
+      <p class="badge-row"><span class="badge premium">Premium</span></p>
+    </div>
+    <div class="beat-visual">
+      <!-- Rotated, lower in its container, and no time in the status bar:
+           three independent signals that this section is off the clock. -->
+      <div class="phone phone--tilt" style="--w:290px;">
+        <div class="phone-status phone-status--notime">
+          <span class="ps-time" aria-hidden="true"></span>
+          <svg class="ps-cluster" viewBox="0 0 66 14" aria-hidden="true"><use href="#ps-cluster"/></svg>
+        </div>
+        <div class="phone-screen">
+          <img src="assets/shot-recs.png" alt="The Discover screen: personalized picks with Watched and Not Interested controls on each card." loading="lazy" width="540" height="1157">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────── PRICING — off the clock ─────────────────────── -->
+<section class="pricing" id="pricing">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">What Tonight does</div>
-      <h2>Everything you need to know what to watch, in one place.</h2>
-      <p class="lead">Built around your actual watchlist — not a generic catalog.</p>
+      <p class="kicker">The fine print, briefly</p>
+      <h2>Free to actually use. Premium if you want it thinking ahead for you.</h2>
     </div>
-    <div class="feature-grid">
-      <div class="feature">
-        <div class="feature-top">
-          <span class="badge free">FREE</span>
-        </div>
-        <h4>Everything airing tonight, sorted</h4>
-        <p>New episodes ready to watch, what's coming this week, and what you've missed — organized the moment you open the app.</p>
+    <div class="tiers">
+      <div class="tier">
+        <p class="tier-name">Free</p>
+        <p class="tier-desc">Everything you need to know what&rsquo;s on and keep track of it.</p>
+        <ul>
+          <li>Full watchlist &amp; episode tracking</li>
+          <li>Tonight&rsquo;s new episodes, at a glance</li>
+          <li>New releases, trending &amp; coming soon</li>
+          <li>Streaming availability for every show</li>
+        </ul>
       </div>
-      <div class="feature">
-        <div class="feature-top">
-          <span class="badge free">FREE</span>
-        </div>
-        <h4>One list for every show</h4>
-        <p>Save what you're watching, track progress automatically, and pick up exactly where you left off — episode by episode or a whole season at once.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-top">
-          <span class="badge free">FREE</span>
-        </div>
-        <h4>Know exactly where to watch</h4>
-        <p>Every show's real streaming availability — which service, which plan — right on its page. Plus new releases, trending, and what's coming soon.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-top">
-          <span class="badge premium">PREMIUM</span>
-        </div>
-        <h4>Picks built just for you</h4>
-        <p>Recommendations pulled from your watchlist, preferences, and viewing history — not a generic trending list everyone else sees too.</p>
+      <div class="tier premium">
+        <p class="tier-name">Premium</p>
+        <p class="tier-desc">For when you want Tonight to do the deciding too.</p>
+        <ul>
+          <li>Everything in Free</li>
+          <li>Personalized recommendations</li>
+          <li>More features on the way</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<section class="wrap avail">
-  <div class="section-head">
-    <div class="kicker">Works with what you already have</div>
-    <h2>No new subscriptions to figure out</h2>
-    <p class="lead">Tell Tonight what you're already subscribed to, and it only ever surfaces what you can actually watch.</p>
-  </div>
-  <div class="services">
-    <span class="service-chip">Netflix</span>
-    <span class="service-chip">Hulu</span>
-    <span class="service-chip">Prime Video</span>
-    <span class="service-chip">Disney+</span>
-    <span class="service-chip">Max</span>
-    <span class="service-chip">Apple TV+</span>
-    <span class="service-chip">Peacock</span>
-    <span class="service-chip">Paramount+</span>
-    <span class="service-chip">and more</span>
-  </div>
-</section>
+<!-- ────────────────────── 9:11 PM — CLOSE, NO DEVICE ─────────────────── -->
+<section class="close" id="notify">
+  <div class="wrap close-inner">
+    <p class="stamp">9:11 PM</p>
+    <h2>You&rsquo;re eight minutes in and already watching.</h2>
+    <p class="lead">Tonight is launching soon on iOS and Android. Leave your email and we&rsquo;ll tell you the day it&rsquo;s live — nothing else, ever.</p>
 
-<section class="wrap" id="pricing">
-  <div class="section-head">
-    <div class="kicker">Pricing</div>
-    <h2>Free to actually use. Premium if you want it thinking ahead for you.</h2>
-  </div>
-  <div class="tiers">
-    <div class="tier">
-      <div class="tier-name">Free</div>
-      <div class="tier-desc">Everything you need to know what's on and keep track of it.</div>
-      <ul>
-        <li>Full watchlist &amp; episode tracking</li>
-        <li>Tonight's new episodes, at a glance</li>
-        <li>New releases, trending &amp; coming soon</li>
-        <li>Streaming availability for every show</li>
-      </ul>
-    </div>
-    <div class="tier premium">
-      <div class="tier-name">Premium</div>
-      <div class="tier-desc">For when you want Tonight to do the deciding too.</div>
-      <ul>
-        <li>Everything in Free</li>
-        <li>Personalized recommendations</li>
-        <li>More features on the way</li>
-      </ul>
-    </div>
-  </div>
-</section>
+    <!-- TODO(wire me): no backend yet. Point action= at a Worker route,
+         Formspark, Buttondown, etc. Currently a no-op. -->
+    <form class="capture" action="#" method="post">
+      <label class="sr-only" for="email">Email address</label>
+      <input id="email" name="email" type="email" required autocomplete="email"
+             inputmode="email" placeholder="your@email.com">
+      <button class="btn-primary" type="submit">Notify me</button>
+    </form>
 
-<section class="wrap closing-wrap">
-  <div class="closing">
-    <div class="closing-glow"></div>
-    <h2>Tonight is almost here.</h2>
-    <p class="lead">Launching soon on Google Play and the App Store.</p>
     <div class="store-badges">
-      <span class="store-badge"><span class="dot"></span>Google Play — coming soon</span>
       <span class="store-badge"><span class="dot"></span>App Store — coming soon</span>
+      <span class="store-badge"><span class="dot"></span>Google Play — coming soon</span>
     </div>
+
+    <!-- The page's last mark is the wordmark's dusk dot: this viewport's
+         one gradient. -->
+    <img class="close-wordmark" src="assets/wordmark.svg" alt="Tonight" width="180" height="55" loading="lazy">
   </div>
 </section>
+
+</main>
+
+<!-- Mobile-only sticky capture. Appears after 9:06, retires over the close. -->
+<div class="sticky-cta" id="stickyCta" hidden>
+  <div class="sticky-inner">
+    <p class="sticky-copy">Launching soon.</p>
+    <a class="btn-primary btn-sm" href="#notify">Get notified</a>
+  </div>
+</div>
 
 <footer>
   <div class="wrap foot-row">
@@ -183,14 +292,39 @@
         <img class="brand-wordmark" src="assets/wordmark.svg" alt="Tonight" width="90" height="28">
       </a>
     </div>
-    <div class="foot-links">
+    <nav class="foot-links" aria-label="Footer">
       <a href="support.html">Support</a>
       <a href="privacy.html">Privacy Policy</a>
       <a href="terms.html">Terms of Service</a>
-    </div>
-    <p class="foot-copy">&copy; 2026 Tonight.</p>
+    </nav>
+    <p class="foot-copy">&copy; 2026 Tonight. Show data from TMDB. Streaming data via JustWatch.</p>
   </div>
 </footer>
+
+<script>
+/* Sticky mobile CTA: visible once the reader is past 9:06, hidden again
+   over the close so it never covers the real form. Mobile only — the
+   media query in CSS keeps it off desktop. No animation library. */
+(function () {
+  var bar = document.getElementById('stickyCta');
+  var start = document.getElementById('beat-0906');
+  var end = document.getElementById('notify');
+  if (!bar || !start || !end || !('IntersectionObserver' in window)) return;
+
+  var pastStart = false, atEnd = false;
+  function sync() {
+    var show = pastStart && !atEnd;
+    bar.hidden = !show;
+    bar.classList.toggle('is-visible', show);
+  }
+  new IntersectionObserver(function (e) {
+    pastStart = e[0].boundingClientRect.top < 0; sync();
+  }, { threshold: 0 }).observe(start);
+  new IntersectionObserver(function (e) {
+    atEnd = e[0].isIntersecting; sync();
+  }, { threshold: 0.05 }).observe(end);
+})();
+</script>
 
 </body>
 </html>
