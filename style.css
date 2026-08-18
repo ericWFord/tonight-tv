@@ -211,26 +211,41 @@ header .wrap{
 .hero-meta{margin-top:20px;font-size:13.5px;color:var(--slate);}
 .hero-visual{display:flex;justify-content:center;}
 
-.hero-clock{
-  display:flex;
-  align-items:center;
-  gap:clamp(6px,1.6vw,16px);
-}
-.hero-clock-num{
+.hero-grid{position:relative;} /* keep if referenced elsewhere; otherwise delete */
+.hero-inner{position:relative;max-width:46em;}
+
+.hero-title{
   font-family:var(--serif);
   font-weight:700;
-  font-size:clamp(64px,20vw,180px);
-  line-height:1;
   letter-spacing:-0.04em;
-  color:var(--cream);
+  line-height:1.02;
 }
-.hero-clock-dot{
-  width:clamp(14px,3.2vw,32px);
-  height:clamp(14px,3.2vw,32px);
-  border-radius:50%;
-  flex-shrink:0;
+.hero-lede{
+  display:block;
+  font-size:clamp(56px,15vw,140px);
+}
+.hero-lede .dot{
   background:linear-gradient(135deg,var(--dusk-a),var(--dusk-b));
-  margin-top:0.22em; /* nudges optical center against the numeral baseline */
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero-colon{
+  display:inline-flex;
+  flex-direction:column;
+  gap:0.16em;
+  margin:0 0.06em;
+  vertical-align:0.08em;
+}
+.hero-dot{
+  width:0.1em;
+  height:0.1em;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--dusk-a),var(--dusk-b));
+}
+.hero-payoff{
+  display:block;
+  margin-top:0.12em;
+  font-size:clamp(32px,8vw,64px);
 }
 
 /* ── 6. Beats ──────────────────────────────────────────────────────────── */
