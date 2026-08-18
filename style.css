@@ -230,18 +230,24 @@ header .wrap{
   -webkit-text-fill-color:transparent;
 }
 .hero-colon{
-  display:inline-flex;
-  flex-direction:column;
-  gap:0.16em;
-  margin:0 0.06em;
-  vertical-align:0.08em;
+.hero-colon{
+  position:relative;
+  display:inline-block;
+  width:0.14em;
+  height:1em;
+  margin:0 0.1em;
+  vertical-align:baseline;
 }
 .hero-dot{
-  width:0.1em;
-  height:0.1em;
+  position:absolute;
+  left:0;
+  width:0.14em;
+  height:0.14em;
   border-radius:50%;
   background:linear-gradient(135deg,var(--dusk-a),var(--dusk-b));
 }
+.hero-dot:first-child{ top:0.2em; }
+.hero-dot:last-child{ top:0.46em; }
 .hero-payoff{
   display:block;
   margin-top:0.12em;
