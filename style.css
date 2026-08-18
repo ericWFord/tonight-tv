@@ -211,6 +211,28 @@ header .wrap{
 .hero-meta{margin-top:20px;font-size:13.5px;color:var(--slate);}
 .hero-visual{display:flex;justify-content:center;}
 
+.hero-clock{
+  display:flex;
+  align-items:center;
+  gap:clamp(6px,1.6vw,16px);
+}
+.hero-clock-num{
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:clamp(64px,20vw,180px);
+  line-height:1;
+  letter-spacing:-0.04em;
+  color:var(--cream);
+}
+.hero-clock-dot{
+  width:clamp(14px,3.2vw,32px);
+  height:clamp(14px,3.2vw,32px);
+  border-radius:50%;
+  flex-shrink:0;
+  background:linear-gradient(135deg,var(--dusk-a),var(--dusk-b));
+  margin-top:0.22em; /* nudges optical center against the numeral baseline */
+}
+
 /* ── 6. Beats ──────────────────────────────────────────────────────────── */
 .beat{padding:var(--rhythm) 0;overflow:hidden;} /* contains every bleed */
 .beat--panel{
