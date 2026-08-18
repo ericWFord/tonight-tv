@@ -176,15 +176,17 @@ header .wrap{
   content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(120% 70% at 50% -10%,rgba(232,92,74,.16),transparent 62%);
 }
-.hero-grid{position:relative;display:grid;gap:52px;}
 .hero-title{
   font-family:var(--serif);
   font-weight:700;
-  font-size:clamp(38px,10.5vw,60px);
-  line-height:1.02;
   letter-spacing:-0.04em;
+  line-height:1.02;
 }
-.hero-title .dot{
+.hero-lede{
+  display:block;
+  font-size:clamp(56px,15vw,140px);
+}
+.hero-lede .dot{
   background:linear-gradient(135deg,var(--dusk-a),var(--dusk-b));
   -webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;
@@ -209,27 +211,8 @@ header .wrap{
 }
 .btn-ghost:hover{border-color:var(--slate);}
 .hero-meta{margin-top:20px;font-size:13.5px;color:var(--slate);}
-.hero-visual{display:flex;justify-content:center;}
 
-.hero-grid{position:relative;} /* keep if referenced elsewhere; otherwise delete */
 .hero-inner{position:relative;max-width:46em;}
-
-.hero-title{
-  font-family:var(--serif);
-  font-weight:700;
-  letter-spacing:-0.04em;
-  line-height:1.02;
-}
-.hero-lede{
-  display:block;
-  font-size:clamp(56px,15vw,140px);
-}
-.hero-lede .dot{
-  background:linear-gradient(135deg,var(--dusk-a),var(--dusk-b));
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.hero-colon{
 .hero-colon{
   position:relative;
   display:inline-block;
