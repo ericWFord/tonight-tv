@@ -229,8 +229,8 @@ header .wrap{
   border-radius:50%;
   background:linear-gradient(135deg,var(--dusk-a),var(--dusk-b));
 }
-.hero-dot:first-child{ top:0.32em; }
-.hero-dot:last-child{ top:0.58em; }
+.hero-dot:first-child{ top:0.42em; }
+.hero-dot:last-child{ top:0.68em; }
 .hero-payoff{
   display:block;
   margin-top:0.12em;
