@@ -206,9 +206,15 @@
     <h2 class="close-title">You're eight minutes in and already watching.</h2>
     <p class="close-sub">Tonight is coming to iPhone and Android in early 2027. Leave your email and we'll tell you the day it's live, nothing else, ever.</p>
 
-    <form class="capture" action="#" method="post" data-capture>
+    <form class="capture" action="https://formsubmit.co/ajax/support.tonight@gmail.com" method="post" data-capture>
       <label class="sr-only" for="email">Email address</label>
       <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="your@email.com">
+
+      <!-- FormSubmit config fields -->
+      <input type="hidden" name="_subject" value="New Tonight signup">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+
       <!-- Honeypot: bots fill every field, humans never see this one. -->
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
       <button class="btn-primary" type="submit">Notify me</button>
@@ -259,14 +265,14 @@
   }, { threshold: 0.15 }).observe(close);
 })();
 
-/* Async email capture: keeps the reader on the page at the moment of
-   highest intent. Falls back to a normal form POST if JS is unavailable.
-   Inert while action="#" — wire a backend before relying on it. */
+/* Async email capture via FormSubmit's AJAX endpoint: keeps the reader on
+   the page at the moment of highest intent. Falls back to a normal form
+   POST (which FormSubmit also handles, redirecting to its own confirmation
+   page) if JS is unavailable. */
 (function () {
   var form = document.querySelector('[data-capture]');
   if (!form) return;
   var status = document.querySelector('.capture-status');
-  if (!form.getAttribute('action') || form.getAttribute('action') === '#') return;
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -279,9 +285,9 @@
       body: new FormData(form),
       headers: { accept: 'application/json' }
     })
-      .then(function (r) { return r.json().catch(function () { return { ok: r.ok }; }); })
+      .then(function (r) { return r.json().catch(function () { return { success: r.ok ? 'true' : 'false' }; }); })
       .then(function (d) {
-        if (!d.ok) throw new Error(d.error || 'Something went wrong.');
+        if (d.success !== 'true' && d.success !== true) throw new Error(d.message || 'Something went wrong.');
         form.hidden = true;
         status.className = 'capture-status is-ok';
         status.textContent = "You're on the list. We'll email you the day it's live.";
