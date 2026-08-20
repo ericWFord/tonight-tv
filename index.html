@@ -4,20 +4,97 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#0B0E1C" />
-<title>Tonight — It's 9:03 PM. Nothing's on. Everything's on.</title>
+<title>Tonight — It's 9:03 PM. Does that air tonight?</title>
 <meta name="description" content="Tonight opens on what actually dropped for the shows you follow. Episode tracking, new releases, and where to watch — in one evening-shaped app." />
 <link rel="icon" href="assets/icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  /* ── Cinematic scroll-snap layer ──────────────────────────────────────
+     Everything visual (color, type, spacing) still comes from style.css.
+     This block only adds: full-viewport panels, snap behavior, the
+     fixed header override, progress dots, and the reveal-on-enter
+     animation for each panel's content. ─────────────────────────────── */
+
+  header{ position:fixed; } /* sticky needs a scrolling ancestor; ours is #scroller, not the doc */
+
+  .scroller{
+    height:100vh;
+    overflow-y:scroll;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+  }
+  .panel{
+    min-height:100vh;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    display:flex;
+    align-items:center;
+  }
+  .panel > .wrap{ width:100%; }
+  .panel:first-of-type{ padding-top:60px; }
+  @media (min-width:1024px){ .panel:first-of-type{ padding-top:68px; } }
+
+  .panel .hero-title, .panel .hero-sub, .panel .hero-actions, .panel .hero-meta,
+  .panel .stamp, .panel .beat-copy h2, .panel .beat-copy p, .panel .tag,
+  .panel .phone, .panel .section-title, .panel .tiers,
+  .panel .close-title, .panel .close-sub, .panel .capture, .panel .close-fine,
+  .panel .foot-row{
+    opacity:0;
+    transform:translateY(22px);
+  }
+  .panel.in-view .hero-title, .panel.in-view .hero-sub, .panel.in-view .hero-actions, .panel.in-view .hero-meta,
+  .panel.in-view .stamp, .panel.in-view .beat-copy h2, .panel.in-view .beat-copy p, .panel.in-view .tag,
+  .panel.in-view .phone, .panel.in-view .section-title, .panel.in-view .tiers,
+  .panel.in-view .close-title, .panel.in-view .close-sub, .panel.in-view .capture, .panel.in-view .close-fine,
+  .panel.in-view .foot-row{
+    opacity:1;
+    transform:translateY(0);
+    transition:opacity .7s ease, transform .7s cubic-bezier(.22,.9,.32,1);
+  }
+  .panel.in-view .stamp                          { transition-delay:.05s; }
+  .panel.in-view .hero-title, .panel.in-view .beat-copy h2,
+  .panel.in-view .section-title, .panel.in-view .close-title { transition-delay:.12s; }
+  .panel.in-view .hero-sub, .panel.in-view .beat-copy p,
+  .panel.in-view .close-sub                      { transition-delay:.2s; }
+  .panel.in-view .tag, .panel.in-view .tiers      { transition-delay:.28s; }
+  .panel.in-view .hero-actions, .panel.in-view .hero-meta,
+  .panel.in-view .capture                        { transition-delay:.32s; }
+  .panel.in-view .phone                          { transition-delay:.34s; }
+  .panel.in-view .close-fine                     { transition-delay:.4s; }
+  .panel.in-view .foot-row                       { transition-delay:.46s; }
+
+  .progress{
+    position:fixed; right:20px; top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; gap:10px; z-index:55;
+  }
+  .progress button{
+    width:7px; height:7px; padding:0; border-radius:50%; border:none;
+    background:rgba(244,239,228,.25); cursor:pointer;
+    transition:background .3s ease, transform .3s ease;
+  }
+  .progress button.active{ background:var(--accent); transform:scale(1.6); }
+  @media (max-width:640px){ .progress{ display:none; } }
+
+  .close .foot-row{ margin-top:56px; padding-top:24px; border-top:1px solid var(--panel-line); }
+
+  @media (prefers-reduced-motion:reduce){
+    .scroller{ scroll-snap-type:none; overflow-y:visible; height:auto; }
+    .panel{ min-height:auto; }
+    .panel .hero-title,.panel .hero-sub,.panel .hero-actions,.panel .hero-meta,
+    .panel .stamp,.panel .beat-copy h2,.panel .beat-copy p,.panel .tag,
+    .panel .phone,.panel .section-title,.panel .tiers,
+    .panel .close-title,.panel .close-sub,.panel .capture,.panel .close-fine,
+    .panel .foot-row{ opacity:1!important; transform:none!important; transition:none!important; }
+  }
+</style>
 </head>
 <body>
 
 <a class="skip" href="#main">Skip to content</a>
 
-<!-- Authored status-bar icon cluster. Vector, never captured.
-     4 signal bars / wifi / battery at 62%. No carrier, no charging bolt. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="ps-cluster" viewBox="0 0 66 14">
     <rect x="0"  y="8"   width="3" height="4"   rx="1" fill="currentColor"/>
@@ -35,20 +112,22 @@
 
 <header>
   <nav class="wrap">
-    <a class="brand" href="index.html" aria-label="Tonight home"><img class="brand-wordmark" src="assets/wordmark.svg" alt="Tonight" width="120" height="37"></a>
+    <a class="brand" href="#panel-0" data-jump="0" aria-label="Tonight home"><img class="brand-wordmark" src="assets/wordmark.svg" alt="Tonight" width="120" height="37"></a>
     <div class="nav-links">
-      <a href="#beat-0904">Features</a>
-      <a href="#pricing">Pricing</a>
+      <a href="#panel-1" data-jump="1">Features</a>
+      <a href="#panel-5" data-jump="5">Pricing</a>
       <a href="support.html">Support</a>
-      <a class="nav-cta" href="#notify">Get notified</a>
+      <a class="nav-cta" href="#panel-6" data-jump="6">Get notified</a>
     </div>
   </nav>
 </header>
 
+<div class="progress" id="progress" role="tablist" aria-label="Section navigation"></div>
+
+<div class="scroller" id="scroller">
 <main id="main">
 
-<!-- ══ 9:03 PM — hero ══════════════════════════════════════════════════ -->
-<section class="hero">
+<section class="hero panel" id="panel-0">
   <div class="wrap hero-inner">
     <h1 class="hero-title">
       <span class="hero-lede">
@@ -58,15 +137,14 @@
     </h1>
     <p class="hero-sub">Ten shows, six apps, six different release days. Tonight remembers what's new tonight so you don't have to.</p>
     <div class="hero-actions">
-      <a class="btn-primary" href="#notify">Get notified at launch</a>
-      <a class="btn-ghost" href="#beat-0904">See how it works</a>
+      <a class="btn-primary" href="#panel-6" data-jump="6">Get notified at launch</a>
+      <a class="btn-ghost" href="#panel-1" data-jump="1">See how it works</a>
     </div>
     <p class="hero-meta">Free to use. No account required. Launching early 2027.</p>
   </div>
 </section>
 
-<!-- ══ 9:04 PM ═════════════════════════════════════════════════════════ -->
-<section class="beat beat--panel" id="beat-0904">
+<section class="beat beat--panel panel" id="panel-1">
   <div class="wrap beat-grid">
     <div class="beat-copy">
       <p class="stamp">9:04 PM</p>
@@ -75,9 +153,6 @@
       <p class="tag">Free</p>
     </div>
     <div class="beat-visual">
-      <!-- TODO(asset): swap to assets/shot-tonight-scrolled.png once captured
-           (Tonight tab scrolled so "Coming next" and "Still waiting" are both
-           in frame). Currently reuses the hero capture. -->
       <div class="phone" style="--w:292px;">
         <div class="phone-island" aria-hidden="true"></div>
         <div class="phone-status">
@@ -92,8 +167,7 @@
   </div>
 </section>
 
-<!-- ══ 9:06 PM ═════════════════════════════════════════════════════════ -->
-<section class="beat" id="beat-0906">
+<section class="beat panel" id="panel-2">
   <div class="wrap beat-grid beat-grid--flip">
     <div class="beat-copy">
       <p class="stamp">9:06 PM</p>
@@ -102,9 +176,6 @@
       <p class="tag">Free</p>
     </div>
     <div class="beat-visual">
-      <!-- TODO(asset): assets/crop-episodes.png — expanded season rows at 2x/3x,
-           ~16:9, three ticked and one unticked plus the "Mark all" pill.
-           Reinstates the detail crop that was removed for being upscaled. -->
       <div class="phone" style="--w:292px;">
         <div class="phone-island" aria-hidden="true"></div>
         <div class="phone-status">
@@ -119,8 +190,7 @@
   </div>
 </section>
 
-<!-- ══ 9:07 PM ═════════════════════════════════════════════════════════ -->
-<section class="beat beat--panel" id="beat-0907">
+<section class="beat beat--panel panel" id="panel-3">
   <div class="wrap beat-grid">
     <div class="beat-copy">
       <p class="stamp">9:07 PM</p>
@@ -143,8 +213,7 @@
   </div>
 </section>
 
-<!-- ══ Some other night — Discover (deliberate clock break) ════════════ -->
-<section class="beat beat--offclock" id="beat-discover">
+<section class="beat beat--offclock panel" id="panel-4">
   <div class="wrap beat-grid beat-grid--flip">
     <div class="beat-copy">
       <p class="stamp stamp--soft">Later, when tonight's answer isn't enough.</p>
@@ -167,8 +236,7 @@
   </div>
 </section>
 
-<!-- ══ Pricing ═════════════════════════════════════════════════════════ -->
-<section class="pricing" id="pricing">
+<section class="pricing panel" id="panel-5">
   <div class="wrap">
     <p class="stamp stamp--center">Pricing</p>
     <h2 class="section-title">The evening part is free.</h2>
@@ -199,8 +267,7 @@
   </div>
 </section>
 
-<!-- ══ 9:11 PM — close ═════════════════════════════════════════════════ -->
-<section class="close" id="notify">
+<section class="close panel" id="panel-6">
   <div class="wrap close-inner">
     <p class="stamp">9:11 PM</p>
     <h2 class="close-title">You're eight minutes in and already watching.</h2>
@@ -209,49 +276,85 @@
     <form class="capture" action="https://formsubmit.co/ajax/support.tonight@gmail.com" method="post" data-capture>
       <label class="sr-only" for="email">Email address</label>
       <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="your@email.com">
-
-      <!-- FormSubmit config fields -->
       <input type="hidden" name="_subject" value="New Tonight signup">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_captcha" value="false">
-
-      <!-- Honeypot: bots fill every field, humans never see this one. -->
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
       <button class="btn-primary" type="submit">Notify me</button>
     </form>
     <p class="capture-status" role="status" aria-live="polite"></p>
     <p class="close-fine">One email. No newsletter, no partners.</p>
+
+    <div class="foot-row">
+      <div class="foot-brand">
+        <a href="index.html" aria-label="Tonight home">
+          <img class="brand-wordmark" src="assets/wordmark.svg" alt="Tonight" width="90" height="28">
+        </a>
+      </div>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </nav>
+      <p class="foot-copy">&copy; 2026 Tonight. Show data from TMDB. Streaming data via JustWatch.</p>
+    </div>
   </div>
 </section>
 
 </main>
+</div>
 
-<footer>
-  <div class="wrap foot-row">
-    <div class="foot-brand">
-      <a href="index.html" aria-label="Tonight home">
-        <img class="brand-wordmark" src="assets/wordmark.svg" alt="Tonight" width="90" height="28">
-      </a>
-    </div>
-    <nav class="foot-links" aria-label="Footer">
-      <a href="support.html">Support</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-    </nav>
-    <p class="foot-copy">&copy; 2026 Tonight. Show data from TMDB. Streaming data via JustWatch.</p>
-  </div>
-</footer>
-
-<a class="sticky-cta" href="#notify" data-sticky>Get notified</a>
+<a class="sticky-cta" href="#panel-6" data-jump="6" data-sticky>Get notified</a>
 
 <script>
-/* Sticky mobile CTA: appears once the hero has scrolled away,
-   retires when the real capture form is in view. */
+(function () {
+  var panels = Array.from(document.querySelectorAll('.panel'));
+  var progressEl = document.getElementById('progress');
+
+  var dots = panels.map(function (p, i) {
+    var b = document.createElement('button');
+    b.setAttribute('aria-label', 'Go to section ' + (i + 1));
+    b.addEventListener('click', function () { jumpTo(i); });
+    progressEl.appendChild(b);
+    return b;
+  });
+
+  function jumpTo(idx) {
+    if (idx < 0 || idx >= panels.length) return;
+    panels[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.querySelectorAll('[data-jump]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      jumpTo(parseInt(el.getAttribute('data-jump'), 10));
+    });
+  });
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var idx = panels.indexOf(entry.target);
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
+        } else {
+          entry.target.classList.remove('in-view');
+        }
+      });
+    }, { threshold: 0.55 });
+    panels.forEach(function (p) { io.observe(p); });
+  } else {
+    panels.forEach(function (p) { p.classList.add('in-view'); });
+  }
+})();
+
 (function () {
   var cta = document.querySelector('[data-sticky]');
-  var close = document.getElementById('notify');
-  var hero = document.querySelector('.hero');
-  if (!cta || !close || !hero || !('IntersectionObserver' in window)) return;
+  var panels = Array.from(document.querySelectorAll('.panel'));
+  var hero = panels[0];
+  var close = panels[panels.length - 1];
+  if (!cta || !hero || !close || !('IntersectionObserver' in window)) return;
 
   var pastHero = false, atClose = false;
   function sync() { cta.classList.toggle('is-on', pastHero && !atClose); }
@@ -265,10 +368,6 @@
   }, { threshold: 0.15 }).observe(close);
 })();
 
-/* Async email capture via FormSubmit's AJAX endpoint: keeps the reader on
-   the page at the moment of highest intent. Falls back to a normal form
-   POST (which FormSubmit also handles, redirecting to its own confirmation
-   page) if JS is unavailable. */
 (function () {
   var form = document.querySelector('[data-capture]');
   if (!form) return;
